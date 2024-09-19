@@ -485,3 +485,6 @@ $RECYCLE.BIN/
 
 [Bb]in/
 [Oo]bj/
+/API/ITicket.db
+/API/ITicket.db-shm
+/API/ITicket.db-wal
