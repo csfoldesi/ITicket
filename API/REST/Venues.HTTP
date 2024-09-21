@@ -1,0 +1,60 @@
+@API_HostAddress = http://localhost:5158/api/venues
+
+#Get Venue
+GET {{API_HostAddress}}/A11B1817-4AEA-4032-8995-86BB2FD13D62
+Accept: application/json
+Content-Type: application/json
+
+###
+
+
+#Get Venue list
+GET {{API_HostAddress}}
+Accept: application/json
+Content-Type: application/json
+
+###
+
+
+#Edit Venue
+PUT {{API_HostAddress}}/A11B1817-4AEA-4032-8995-86BB2FD13D62
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "Gólya",
+  "description": "Gólya description",
+  "address": {
+    "country": "Magyarország",
+    "zipCode": "1083",
+    "city": "Budapest",
+    "street": "Orczy út 144."
+  }
+}
+###
+
+
+# Create Venue
+POST {{API_HostAddress}}
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "Gólya",
+  "description": "Gólya description",
+  "address": {
+    "country": "Magyarország",
+    "zipCode": "1083",
+    "city": "Budapest",
+    "street": "Orczy út 14."
+  }
+}
+###
+
+
+# Delete Venue
+DELETE {{API_HostAddress}}/29c9da2c-320c-46cd-901a-669228614aa3
+Accept: application/json
+Content-Type: application/json
+
+###

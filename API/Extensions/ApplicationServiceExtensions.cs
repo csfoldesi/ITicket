@@ -18,6 +18,12 @@ public static class ApplicationServiceExtensions
             options.UseSqlite(configuration.GetConnectionString("DefaultConnection")!);
         });
 
+        services.AddMediatR(cfg =>
+            cfg.RegisterServicesFromAssembly(typeof(Application.Venues.Create).Assembly)
+        );
+
+        services.AddAutoMapper(typeof(Application.Core.MappingProfiles).Assembly);
+
         return services;
     }
 }

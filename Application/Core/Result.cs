@@ -1,16 +1,31 @@
 ﻿namespace Application.Core;
 
+public enum ResultCode
+{
+    Success,
+    Error,
+    NotFound,
+}
+
 public class Result<T>
 {
-    public bool IsSuccess { get; set; }
-
     public T? Value { get; set; }
 
     public string? Error { get; set; }
 
-    public static Result<T> Success(T? value) => new() { IsSuccess = true, Value = value };
+    public bool HasValue
+    {
+        get => Value is not null;
+    }
 
-    public static Result<T> Failure(string error) => new() { IsSuccess = false, Error = error };
+    public ResultCode ResultCode { get; set; }
 
-    public bool HasValue() => Value is not null;
+    public static Result<T> Success(T? value) =>
+        new() { ResultCode = ResultCode.Success, Value = value };
+
+    public static Result<T> Failure(string error) =>
+        new() { ResultCode = ResultCode.Error, Error = error };
+
+    public static Result<T> NotFound(string? error = null) =>
+        new() { ResultCode = ResultCode.NotFound, Error = error };
 }
