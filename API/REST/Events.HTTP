@@ -1,0 +1,51 @@
+@API_HostAddress = http://localhost:5158/api/events
+
+#Get Event
+GET {{API_HostAddress}}/f48cb999-121c-429c-82fa-72bbaefbc516
+Accept: application/json
+Content-Type: application/json
+
+###
+
+#Get Event list
+GET {{API_HostAddress}}
+Accept: application/json
+Content-Type: application/json
+
+###
+
+
+# Create Event
+POST {{API_HostAddress}}
+Accept: application/json
+Content-Type: application/json
+
+{
+  "title": "Necc Party",
+  "description": "Necc Party description",
+  "dateTime": "2024-09-29T21:00",
+  "venueId": "32eb4144-50d7-40b0-9ed0-417a02a0c82b"
+}
+###
+
+
+#Edit Event
+PUT {{API_HostAddress}}/f48cb999-121c-429c-82fa-72bbaefbc516
+Accept: application/json
+Content-Type: application/json
+
+{
+  "title": "Necc Party New",
+  "description": "Necc Party description",
+  "dateTime": "2024-09-23T21:00",
+  "venueId": "32eb4144-50d7-40b0-9ed0-417a02a0c82b"
+}
+###
+
+
+# Delete Event
+DELETE {{API_HostAddress}}/4cad48f4-31e2-407a-ac83-dd1b6aef601d
+Accept: application/json
+Content-Type: application/json
+
+###
