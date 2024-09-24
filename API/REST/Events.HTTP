@@ -1,4 +1,4 @@
-@API_HostAddress = http://localhost:5158/api/events
+@API_HostAddress = http://localhost:5000/api/events
 
 #Get Event
 GET {{API_HostAddress}}/f48cb999-121c-429c-82fa-72bbaefbc516

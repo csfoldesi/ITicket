@@ -1,4 +1,4 @@
-@API_HostAddress = http://localhost:5158/api/venues
+@API_HostAddress = http://localhost:5000/api/venues
 
 #Get Venue
 GET {{API_HostAddress}}/A11B1817-4AEA-4032-8995-86BB2FD13D62
