@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
-import venuesStore from "../features/venues/venuesStore";
-import { venuesApi } from "../features/venues/venuesApi";
+import venuesStore from "../../features/venues/venuesStore";
+import { venuesApi } from "../../features/venues/venuesApi";
 import { setupListeners } from "@reduxjs/toolkit/query";
 
 export const store = configureStore({

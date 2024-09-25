@@ -5,7 +5,7 @@ import { Container } from "@mui/material";
 import { useGetVenuesListQuery } from "./venuesApi";
 
 const VenueList = () => {
-  const { data, error, isLoading } = useGetVenuesListQuery("venues");
+  const { data, error, isLoading } = useGetVenuesListQuery("");
 
   /*const dispatch = useAppDispatch();
   const venuesList = useAppSelector(selectVenueList);
@@ -14,6 +14,8 @@ const VenueList = () => {
   useEffect(() => {
     dispatch(loadAsync());
   }, [dispatch]);*/
+
+  if (error) return <p>Error happened</p>;
 
   return (
     <Container>
