@@ -3,6 +3,7 @@ import { Container } from "@mui/material";
 //import { loadAsync, selectVenueList } from "./venuesStore";
 //import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { useGetVenuesListQuery } from "./venuesApi";
+import VenueListItem from "./VenueListItem";
 
 const VenueList = () => {
   const { data, error, isLoading } = useGetVenuesListQuery("");
@@ -20,19 +21,7 @@ const VenueList = () => {
   return (
     <Container>
       <h1>Venues</h1>
-      {isLoading ? (
-        <p>Loading</p>
-      ) : (
-        data?.map((venue) => (
-          <div key={venue.id}>
-            <p>{venue.name}</p>
-            <p>{venue.description}</p>
-            <p>
-              {venue.address.zipCode}, {venue.address.city}, {venue.address.street}
-            </p>
-          </div>
-        ))
-      )}
+      {isLoading ? <p>Loading</p> : data?.map((venue) => <VenueListItem venue={venue} key={venue.id} />)}
     </Container>
   );
 };

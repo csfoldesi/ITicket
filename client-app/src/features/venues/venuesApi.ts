@@ -6,8 +6,11 @@ export const venuesApi = BaseApi.injectEndpoints({
     getVenuesList: builder.query<Venue[], string>({
       query: () => "venues",
     }),
+    getVenueDetail: builder.query<Venue, string>({
+      query: (id) => `venues/${id}`,
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useGetVenuesListQuery } = venuesApi;
+export const { useGetVenuesListQuery, useGetVenueDetailQuery } = venuesApi;

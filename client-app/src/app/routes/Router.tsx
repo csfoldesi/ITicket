@@ -3,6 +3,8 @@ import ErrorPage from "../../features/errors/ErrorPage";
 import VenueList from "../../features/venues/VenueList";
 import EventList from "../../features/events/EventList";
 import App from "../App";
+import VenueDetails from "../../features/venues/VenueDetails";
+import EventDetails from "../../features/events/EventDetails";
 
 const routes: RouteObject[] = [
   {
@@ -15,8 +17,16 @@ const routes: RouteObject[] = [
         element: <VenueList />,
       },
       {
+        path: "venues/:id",
+        element: <VenueDetails />,
+      },
+      {
         path: "events",
         element: <EventList />,
+      },
+      {
+        path: "events/:id",
+        element: <EventDetails />,
       },
     ],
   },
