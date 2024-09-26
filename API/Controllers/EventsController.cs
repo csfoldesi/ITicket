@@ -1,4 +1,5 @@
 ﻿using Application.Events;
+using Application.Events.Query;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,9 +15,9 @@ public class EventsController : BaseApiController
     }
 
     [HttpGet]
-    public async Task<IActionResult> ListEvents()
+    public async Task<IActionResult> ListEvents([FromQuery] EventQueryParams queryParams)
     {
-        var result = await Mediator.Send(new List.Query());
+        var result = await Mediator.Send(new List.Query { QueryParams = queryParams });
         return HandleResult(result);
     }
 

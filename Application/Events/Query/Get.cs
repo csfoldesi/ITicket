@@ -4,7 +4,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
-namespace Application.Events;
+namespace Application.Events.Query;
 
 public class Get
 {

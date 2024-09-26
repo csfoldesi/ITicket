@@ -14,6 +14,13 @@ Content-Type: application/json
 
 ###
 
+#Get Event list by Venue
+GET {{API_HostAddress}}?venue=32eb4144-50d7-40b0-9ed0-417a02a0c82b
+Accept: application/json
+Content-Type: application/json
+
+###
+
 
 # Create Event
 POST {{API_HostAddress}}
