@@ -3,7 +3,7 @@ using Domain;
 using MediatR;
 using Persistence;
 
-namespace Application.Venues;
+namespace Application.Venues.Query;
 
 public class Get
 {

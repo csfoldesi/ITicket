@@ -1,4 +1,5 @@
 ﻿using Application.Venues;
+using Application.Venues.Query;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,9 +15,9 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ListVenues()
+        public async Task<IActionResult> ListVenues([FromQuery] VenueQueryParams queryParams)
         {
-            var result = await Mediator.Send(new List.Query());
+            var result = await Mediator.Send(new List.Query { Params = queryParams });
             return HandleResult(result);
         }
 

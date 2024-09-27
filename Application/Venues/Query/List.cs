@@ -1,16 +1,18 @@
 ﻿using Application.Core;
 using Domain;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Persistence;
 
-namespace Application.Venues;
+namespace Application.Venues.Query;
 
 public class List
 {
-    public class Query : IRequest<Result<List<Venue>>> { }
+    public class Query : IRequest<Result<PagedList<Venue>>>
+    {
+        public required VenueQueryParams Params { get; set; }
+    }
 
-    public class Handler : IRequestHandler<Query, Result<List<Venue>>>
+    public class Handler : IRequestHandler<Query, Result<PagedList<Venue>>>
     {
         private readonly DataContext _dataContext;
 
@@ -19,7 +21,7 @@ public class List
             _dataContext = dataContext;
         }
 
-        public async Task<Result<List<Venue>>> Handle(
+        public async Task<Result<PagedList<Venue>>> Handle(
             Query request,
             CancellationToken cancellationToken
         )
@@ -27,9 +29,9 @@ public class List
             var result = await _dataContext
                 .Venues.OrderBy(x => x.Name)
                 .ThenBy(x => x.Id)
-                .ToListAsync();
+                .PaginatedListAsync(request.Params.PageNumber, request.Params.PageSize);
 
-            return Result<List<Venue>>.Success(result);
+            return Result<PagedList<Venue>>.Success(result);
         }
     }
 }

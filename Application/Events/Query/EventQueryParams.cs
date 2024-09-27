@@ -1,6 +1,8 @@
-﻿namespace Application.Events.Query;
+﻿using Application.Core;
 
-public class EventQueryParams
+namespace Application.Events.Query;
+
+public class EventQueryParams : PagedQuery
 {
     public Guid? Venue { get; set; }
 

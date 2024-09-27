@@ -9,7 +9,7 @@ Content-Type: application/json
 
 
 #Get Venue list
-GET {{API_HostAddress}}
+GET {{API_HostAddress}}?pagenumber=0&pagesize=10
 Accept: application/json
 Content-Type: application/json
 
@@ -22,13 +22,13 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "name": "Gólya",
-  "description": "Gólya description",
+  "name": "Mátyás-templom",
+  "description": "Mátyás-templom",
   "address": {
     "country": "Magyarország",
-    "zipCode": "1083",
+    "zipCode": "1014",
     "city": "Budapest",
-    "street": "Orczy út 144."
+    "street": "Szentháromság tér 2."
   }
 }
 ###
@@ -40,8 +40,8 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "name": "Gólya",
-  "description": "Gólya description",
+  "name": "Magyar Állami Operaház",
+  "description": "Magyar Állami Operaház",
   "address": {
     "country": "Magyarország",
     "zipCode": "1083",

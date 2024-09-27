@@ -8,12 +8,12 @@ namespace Application.Events.Query;
 
 public class List
 {
-    public class Query : IRequest<Result<List<Event>>>
+    public class Query : IRequest<Result<PagedList<Event>>>
     {
         public required EventQueryParams QueryParams { get; set; }
     }
 
-    public class Handler : IRequestHandler<Query, Result<List<Event>>>
+    public class Handler : IRequestHandler<Query, Result<PagedList<Event>>>
     {
         private readonly DataContext _dataContext;
 
@@ -22,7 +22,7 @@ public class List
             _dataContext = dataContext;
         }
 
-        public async Task<Result<List<Event>>> Handle(
+        public async Task<Result<PagedList<Event>>> Handle(
             Query request,
             CancellationToken cancellationToken
         )
@@ -45,9 +45,9 @@ public class List
                 .OrderBy(x => x.DateTime)
                 .ThenBy(x => x.Title)
                 .ThenBy(x => x.Id)
-                .ToListAsync();
+                .PaginatedListAsync(request.QueryParams.PageNumber, request.QueryParams.PageSize);
 
-            return Result<List<Event>>.Success(result);
+            return Result<PagedList<Event>>.Success(result);
         }
     }
 }
