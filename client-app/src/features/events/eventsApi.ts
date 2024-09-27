@@ -1,15 +1,15 @@
-import { BaseApi } from "../../app/baseApi";
+import { BaseApi, ListResponse } from "../../app/baseApi";
 import { Event } from "../../app/models/event";
 
-type EventQueryParams = {
+interface EventQueryParams {
   venue?: string;
   dateFrom?: Date;
   dateTo?: Date;
-};
+}
 
 export const eventsApi = BaseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getEventsList: builder.query<Event[], EventQueryParams>({
+    getEventsList: builder.query<ListResponse<Event>, EventQueryParams>({
       query: (arg) => {
         const { venue, dateFrom, dateTo } = arg;
         return {

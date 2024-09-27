@@ -14,7 +14,7 @@ const VenueEventList = ({ venueId }: Props) => {
 
   return (
     <Container>
-      {eventList?.map((event) => (
+      {eventList?.items.map((event) => (
         <EventListItem event={event} key={event.id} />
       ))}
     </Container>

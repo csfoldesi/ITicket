@@ -10,7 +10,7 @@ const EventList = () => {
   return (
     <Container>
       <h1>Events</h1>
-      {isLoading ? <p>Loading</p> : data?.map((event) => <EventListItem event={event} key={event.id} />)}
+      {isLoading ? <p>Loading</p> : data?.items.map((event) => <EventListItem event={event} key={event.id} />)}
     </Container>
   );
 };
