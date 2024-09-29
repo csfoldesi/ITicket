@@ -7,3 +7,10 @@ export type Event = {
   dateTime: Date;
   venue: Venue;
 };
+
+export type CreateEvent = {
+  venueId: string;
+  title: string;
+  description: string;
+  dateTime: string;
+};

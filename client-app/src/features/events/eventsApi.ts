@@ -1,5 +1,5 @@
 import { BaseApi, ListResponse } from "../../app/baseApi";
-import { Event } from "../../app/models/event";
+import { CreateEvent, Event } from "../../app/models/event";
 
 interface EventQueryParams {
   venue?: string;
@@ -13,16 +13,30 @@ export const eventsApi = BaseApi.injectEndpoints({
       query: (arg) => {
         const { venue, dateFrom, dateTo } = arg;
         return {
-          url: "events/",
+          url: "events",
           params: { venue, dateFrom, dateTo },
         };
       },
+      providesTags: ["Event"],
     }),
     getEventDetail: builder.query<Event, string>({
       query: (id) => `events/${id}`,
+    }),
+    createEvent: builder.mutation<Event, CreateEvent>({
+      query: (createEvent) => {
+        return {
+          url: "events",
+          method: "post",
+          body: createEvent,
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        };
+      },
+      invalidatesTags: ["Event"],
     }),
   }),
   overrideExisting: false,
 });
 
-export const { useGetEventsListQuery, useGetEventDetailQuery } = eventsApi;
+export const { useGetEventsListQuery, useGetEventDetailQuery, useCreateEventMutation } = eventsApi;

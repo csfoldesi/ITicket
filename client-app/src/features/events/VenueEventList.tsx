@@ -8,7 +8,7 @@ interface Props {
 
 const VenueEventList = ({ venueId }: Props) => {
   const { data: eventList, error, isLoading } = useGetEventsListQuery({ venue: venueId });
-  console.log(eventList);
+
   if (error) return <p>Error happened</p>;
   if (isLoading) return <p>Loading...</p>;
 
