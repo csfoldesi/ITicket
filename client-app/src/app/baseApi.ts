@@ -6,6 +6,12 @@ export interface ListResponse<T> {
   totalPages: number;
   pageSize: number;
   items: T[];
+  hasMorePages?: boolean;
+}
+
+export interface PagedQuery {
+  pageNumber?: number;
+  pageSize?: number;
 }
 
 export const BaseApi = createApi({

@@ -1,7 +1,7 @@
-import { BaseApi, ListResponse } from "../../app/baseApi";
+import { BaseApi, ListResponse, PagedQuery } from "../../app/baseApi";
 import { CreateEvent, Event } from "../../app/models/event";
 
-interface EventQueryParams {
+interface EventQueryParams extends PagedQuery {
   venue?: string;
   dateFrom?: Date;
   dateTo?: Date;
@@ -11,13 +11,15 @@ export const eventsApi = BaseApi.injectEndpoints({
   endpoints: (builder) => ({
     getEventsList: builder.query<ListResponse<Event>, EventQueryParams>({
       query: (arg) => {
-        const { venue, dateFrom, dateTo } = arg;
         return {
           url: "events",
-          params: { venue, dateFrom, dateTo },
+          params: { ...arg },
         };
       },
       providesTags: ["Event"],
+      transformResponse: (response: ListResponse<Event>) => {
+        return { ...response, hasMorePages: response.currentPage < response.totalPages - 1 };
+      },
     }),
     getEventDetail: builder.query<Event, string>({
       query: (id) => `events/${id}`,

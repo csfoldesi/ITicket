@@ -6,11 +6,12 @@ import VenueListItem from "./VenueListItem";
 import React from "react";
 import { Virtuoso } from "react-virtuoso";
 import { Venue } from "../../app/models/venue";
+import EndlessListFooter from "../core/EndlessListFooter";
 
 const VenueList = () => {
   const [page, setPage] = React.useState(0);
   const [venueList, setVenueList] = React.useState<Venue[]>(() => []);
-  const { data, error, isLoading } = useGetVenuesListQuery(page);
+  const { data, error, isLoading } = useGetVenuesListQuery({ pageNumber: page });
 
   React.useEffect(() => {
     if (data?.items) {
@@ -19,34 +20,13 @@ const VenueList = () => {
   }, [data]);
 
   const loadMore = React.useCallback(() => {
-    if (isLoading || !data?.totalPages || page >= data?.totalPages) {
+    if (isLoading || !data?.hasMorePages) {
       return;
     }
     return setTimeout(() => {
       setPage((prev) => prev + 1);
     }, 500);
-  }, [isLoading, setPage, page, data?.totalPages]);
-
-  const hasMoreData = () => {
-    return !data || page + 1 < data?.totalPages;
-  };
-
-  const Footer = () => {
-    return (
-      <>
-        {hasMoreData() && (
-          <div
-            style={{
-              padding: "2rem",
-              display: "flex",
-              justifyContent: "center",
-            }}>
-            Loading...
-          </div>
-        )}
-      </>
-    );
-  };
+  }, [isLoading, setPage, data?.hasMorePages]);
 
   /*const dispatch = useAppDispatch();
   const venuesList = useAppSelector(selectVenueList);
@@ -85,7 +65,7 @@ const VenueList = () => {
           endReached={loadMore}
           increaseViewportBy={200}
           itemContent={(index, venue: Venue) => <VenueListItem venue={venue} key={venue.id} />}
-          components={{ Footer }}
+          components={{ Footer: () => <EndlessListFooter hasMorePages={data?.hasMorePages} /> }}
         />
       )}
     </>
