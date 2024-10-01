@@ -1,0 +1,24 @@
+@API_HostAddress = http://localhost:5000/api/accounts
+
+# Create Account
+POST {{API_HostAddress}}/register
+Accept: application/json
+Content-Type: application/json
+
+{
+  "email": "cs7@cs.cs",
+  "password": "Password1"
+}
+###
+
+
+# Login
+POST {{API_HostAddress}}
+Accept: application/json
+Content-Type: application/json
+
+{
+  "email": "cs7@cs.cs",
+  "password": "Password1"
+}
+###

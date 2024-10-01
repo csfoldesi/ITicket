@@ -1,45 +1,18 @@
 ﻿using System.Text;
-using API.Services;
+using Application.Common.Interfaces;
 using Domain;
+using Infrastructure.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Persistence;
 
-namespace API.Extensions;
+namespace Infrastructure;
 
-public static class ApplicationServiceExtensions
+public static class DependencyInjection
 {
-    public static IServiceCollection AddAPIServices(
-        this IServiceCollection services,
-        IConfiguration configuration
-    )
-    {
-        services.AddControllers();
-        services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen();
-
-        services.AddCors(options =>
-        {
-            options.AddPolicy(
-                "CorsPolicy",
-                policy =>
-                {
-                    policy
-                        .AllowAnyMethod()
-                        .AllowAnyHeader()
-                        .AllowCredentials()
-                        .WithOrigins(
-                            [.. configuration.GetSection("AllowedOrigins")!.Get<List<string>>()]
-                        );
-                }
-            );
-        });
-
-        return services;
-    }
-
-    public static IServiceCollection AddIdentityServices(this IServiceCollection services)
+    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
     {
         services
             .AddIdentityCore<User>(options =>
@@ -68,8 +41,8 @@ public static class ApplicationServiceExtensions
             });
 
         services.AddAuthorization();
-
         services.AddScoped<TokenService>();
+        services.AddTransient<IIdentityService, IdentityService>();
 
         return services;
     }

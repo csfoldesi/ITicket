@@ -28,10 +28,10 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "title": "Necc Party",
-  "description": "Necc Party description",
-  "dateTime": "2024-09-29T21:00",
-  "venueId": "32eb4144-50d7-40b0-9ed0-417a02a0c82b"
+  "title": "Event 20",
+  "description": "Event 20 description",
+  "dateTime": "2024-10-20T21:00",
+  "venueId": "531f0074-6e6a-4954-8ad9-55a4d4b20220"
 }
 ###
 

@@ -1,4 +1,4 @@
-﻿using Application.Core;
+﻿using Application.Common;
 
 namespace Application.Events.Query;
 

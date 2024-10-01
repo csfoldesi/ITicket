@@ -1,4 +1,4 @@
-﻿using Application.Core;
+﻿using Application.Common;
 using Domain;
 using MediatR;
 using Persistence;

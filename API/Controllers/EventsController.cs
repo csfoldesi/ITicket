@@ -1,6 +1,5 @@
 ﻿using Application.Events;
 using Application.Events.Query;
-using Domain;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;

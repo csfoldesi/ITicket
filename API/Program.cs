@@ -1,5 +1,6 @@
 using API.Extensions;
 using Application;
+using Infrastructure;
 using Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,8 +8,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddAPIServices(builder.Configuration);
-builder.Services.AddApplicationServices();
+
+//builder.Services.AddIdentityServices();
 builder.Services.AddPersistenceServices(builder.Configuration);
+builder.Services.AddInfrastructureServices();
+builder.Services.AddApplicationServices();
 
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
@@ -35,6 +39,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseCors("CorsPolicy");
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

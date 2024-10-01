@@ -5,7 +5,8 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "JWT_KEY": "6fbe6acf49a55cd2eede85eb93abd022f6939461e1dbeb451cce60dfc849f077"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "http://localhost:5000"
