@@ -5,6 +5,7 @@ import EventList from "../../features/events/EventList";
 import App from "../App";
 import VenueDetails from "../../features/venues/VenueDetails";
 import EventDetails from "../../features/events/EventDetails";
+import Login from "../../features/accounts/Login";
 
 const routes: RouteObject[] = [
   {
@@ -27,6 +28,10 @@ const routes: RouteObject[] = [
       {
         path: "events/:id",
         element: <EventDetails />,
+      },
+      {
+        path: "login",
+        element: <Login />,
       },
     ],
   },

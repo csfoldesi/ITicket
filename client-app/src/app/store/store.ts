@@ -2,10 +2,12 @@ import { configureStore } from "@reduxjs/toolkit";
 import venuesStore from "../../features/venues/venuesStore";
 import { venuesApi } from "../../features/venues/venuesApi";
 import { setupListeners } from "@reduxjs/toolkit/query";
+import accountsStore from "../../features/accounts/accountsStore";
 
 export const store = configureStore({
   reducer: {
     venues: venuesStore,
+    accounts: accountsStore,
     [venuesApi.reducerPath]: venuesApi.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(venuesApi.middleware),

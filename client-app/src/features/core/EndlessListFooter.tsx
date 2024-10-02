@@ -1,3 +1,5 @@
+import { Box, CircularProgress } from "@mui/material";
+
 interface Prop {
   hasMorePages: boolean | undefined;
 }
@@ -6,14 +8,9 @@ const EndlessListFooter = ({ hasMorePages }: Prop) => {
   return (
     <>
       {hasMorePages && (
-        <div
-          style={{
-            padding: "2rem",
-            display: "flex",
-            justifyContent: "center",
-          }}>
-          Loading...
-        </div>
+        <Box sx={{ display: "flex", width: "100%", justifyContent: "center", padding: "10px" }}>
+          <CircularProgress />
+        </Box>
       )}
     </>
   );
