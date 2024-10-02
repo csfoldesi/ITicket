@@ -1,4 +1,20 @@
 @API_HostAddress = http://localhost:5000/api/events
+@API_HostAddressLogin = http://localhost:5000/api/accounts
+
+
+# Login
+# @name postLogin
+POST {{API_HostAddressLogin}}
+Accept: application/json
+Content-Type: application/json
+
+{
+  "email": "cs@cs.cs",
+  "password": "Password1"
+}
+###
+@token = {{postLogin.response.body.token}}
+
 
 #Get Event
 GET {{API_HostAddress}}/f48cb999-121c-429c-82fa-72bbaefbc516
@@ -26,10 +42,11 @@ Content-Type: application/json
 POST {{API_HostAddress}}
 Accept: application/json
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
-  "title": "Event 20",
-  "description": "Event 20 description",
+  "title": "Create test",
+  "description": "Create event test",
   "dateTime": "2024-10-20T21:00",
   "venueId": "531f0074-6e6a-4954-8ad9-55a4d4b20220"
 }

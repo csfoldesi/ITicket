@@ -13,12 +13,24 @@ Content-Type: application/json
 
 
 # Login
+# @name postLogin
 POST {{API_HostAddress}}
 Accept: application/json
 Content-Type: application/json
 
 {
-  "email": "cs7@cs.cs",
+  "email": "cs@cs.cs",
   "password": "Password1"
 }
+###
+@token = {{postLogin.response.body.token}}
+
+
+# Get profile
+GET {{API_HostAddress}}
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+
 ###

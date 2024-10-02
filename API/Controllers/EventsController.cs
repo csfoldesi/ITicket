@@ -1,5 +1,6 @@
 ﻿using Application.Events;
 using Application.Events.Query;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -20,6 +21,7 @@ public class EventsController : BaseApiController
         return HandleResult(result);
     }
 
+    [Authorize]
     [HttpPost]
     public async Task<IActionResult> CreateEvent(CreateEditDto eventDto)
     {

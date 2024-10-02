@@ -30,7 +30,7 @@ public class AccountsController : BaseApiController
                 new AccountDto
                 {
                     Id = user.Id,
-                    UserName = user.UserName!,
+                    Email = user.Email!,
                     Token = _tokenService.CreateToken(user),
                 }
             );
@@ -53,10 +53,25 @@ public class AccountsController : BaseApiController
                 new AccountDto
                 {
                     Id = user.Id,
-                    UserName = user.UserName!,
+                    Email = user.Email!,
                     Token = _tokenService.CreateToken(user),
                 }
             );
+        }
+        else
+        {
+            return Unauthorized(result.Error);
+        }
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetProfile()
+    {
+        var result = await _identityService.GetUserProfileAsync();
+        if (result.ResultCode == Application.Common.ResultCode.Success)
+        {
+            var user = result.Value!;
+            return Ok(new AccountDto { Id = user.Id, Email = user.Email! });
         }
         else
         {
