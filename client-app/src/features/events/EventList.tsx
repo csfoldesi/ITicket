@@ -8,24 +8,16 @@ import EndlessListFooter from "../core/EndlessListFooter";
 
 const EventList = () => {
   const [page, setPage] = React.useState(0);
-  const [eventList, setEventList] = React.useState<Event[]>(() => []);
-
-  const { data, error, isLoading } = eventsApi.useGetEventsListQuery({ pageNumber: page });
-
-  React.useEffect(() => {
-    if (data?.items) {
-      setEventList((prev) => [...prev, ...data.items]);
-    }
-  }, [data]);
+  const { data: eventList, error, isLoading } = eventsApi.useGetEventsListQuery({ pageNumber: page });
 
   const loadMore = React.useCallback(() => {
-    if (isLoading || !data?.hasMorePages) {
+    if (isLoading || !eventList?.hasMorePages) {
       return;
     }
     return setTimeout(() => {
       setPage((prev) => prev + 1);
     }, 500);
-  }, [isLoading, setPage, data?.hasMorePages]);
+  }, [isLoading, eventList?.hasMorePages]);
 
   if (error) return <p>Error happened</p>;
   if (isLoading) return <p>Loading...</p>;
@@ -33,14 +25,14 @@ const EventList = () => {
   return (
     <Container>
       <h1>Events</h1>
-      {data && (
+      {eventList && (
         <Virtuoso
           useWindowScroll
-          data={eventList}
+          data={eventList.items}
           endReached={loadMore}
           increaseViewportBy={200}
           itemContent={(index, event: Event) => <EventListItem event={event} key={event.id} />}
-          components={{ Footer: () => <EndlessListFooter hasMorePages={data?.hasMorePages} /> }}
+          components={{ Footer: () => <EndlessListFooter hasMorePages={eventList?.hasMorePages} /> }}
         />
       )}
     </Container>

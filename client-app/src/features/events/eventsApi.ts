@@ -20,6 +20,18 @@ export const eventsApi = BaseApi.injectEndpoints({
       transformResponse: (response: ListResponse<Event>) => {
         return { ...response, hasMorePages: response.currentPage < response.totalPages - 1 };
       },
+      serializeQueryArgs: ({ queryArgs, endpointName }) => {
+        return { ...queryArgs, pageNumber: 0 };
+      },
+      merge: (currentCache, newItems, { arg }) => {
+        if (currentCache.items && arg.pageNumber !== 0) {
+          return { ...currentCache, ...newItems, items: [...currentCache.items, ...newItems.items] };
+        }
+        return newItems;
+      },
+      forceRefetch({ currentArg, previousArg }) {
+        return currentArg !== previousArg;
+      },
     }),
     getEventDetail: builder.query<Event, string>({
       query: (id) => `events/${id}`,

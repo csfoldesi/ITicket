@@ -1,5 +1,5 @@
 import { Container } from "@mui/material";
-import { useGetEventsListQuery } from "./eventsApi";
+import { eventsApi } from "./eventsApi";
 import EventListItem from "./EventListItem";
 import React from "react";
 import { Event } from "../../app/models/event";
@@ -12,39 +12,30 @@ interface Props {
 
 const VenueEventList = ({ venueId }: Props) => {
   const [page, setPage] = React.useState(0);
-  const [eventList, setEventList] = React.useState<Event[]>(() => []);
-
-  const { data, error, isLoading } = useGetEventsListQuery({ venue: venueId, pageNumber: page });
-
-  React.useEffect(() => {
-    if (data?.items) {
-      setEventList((prev) => [...prev, ...data.items]);
-    }
-  }, [data]);
+  const { data: eventList, error, isLoading } = eventsApi.useGetEventsListQuery({ pageNumber: page, venue: venueId });
 
   const loadMore = React.useCallback(() => {
-    if (isLoading || !data?.hasMorePages) {
+    if (isLoading || !eventList?.hasMorePages) {
       return;
     }
     return setTimeout(() => {
       setPage((prev) => prev + 1);
     }, 500);
-  }, [isLoading, setPage, data?.hasMorePages]);
-  
-  
+  }, [isLoading, eventList?.hasMorePages]);
+
   if (error) return <p>Error happened</p>;
   if (isLoading) return <p>Loading...</p>;
 
   return (
     <Container>
-      {data && (
+      {eventList && (
         <Virtuoso
           useWindowScroll
-          data={eventList}
+          data={eventList.items}
           endReached={loadMore}
           increaseViewportBy={200}
           itemContent={(index, event: Event) => <EventListItem event={event} key={event.id} />}
-          components={{ Footer: () => <EndlessListFooter hasMorePages={data?.hasMorePages} /> }}
+          components={{ Footer: () => <EndlessListFooter hasMorePages={eventList.hasMorePages} /> }}
         />
       )}
     </Container>
