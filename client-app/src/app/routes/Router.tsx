@@ -6,6 +6,8 @@ import App from "../App";
 import VenueDetails from "../../features/venues/VenueDetails";
 import EventDetails from "../../features/events/EventDetails";
 import Login from "../../features/accounts/Login";
+import Profile from "../../features/accounts/Profile";
+import Register from "../../features/accounts/Register";
 
 const routes: RouteObject[] = [
   {
@@ -32,6 +34,14 @@ const routes: RouteObject[] = [
       {
         path: "login",
         element: <Login />,
+      },
+      {
+        path: "profile",
+        element: <Profile />,
+      },
+      {
+        path: "register",
+        element: <Register />,
       },
     ],
   },

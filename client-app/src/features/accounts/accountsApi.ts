@@ -1,5 +1,5 @@
 import { BaseApi } from "../../app/baseApi";
-import { Account, LoginDto } from "../../app/models/account";
+import { Account, LoginDto, RegisterDto } from "../../app/models/account";
 
 export const accountsApi = BaseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -9,6 +9,18 @@ export const accountsApi = BaseApi.injectEndpoints({
           url: "accounts",
           method: "post",
           body: login,
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        };
+      },
+    }),
+    register: builder.mutation<Account, RegisterDto>({
+      query: (register) => {
+        return {
+          url: "accounts/register",
+          method: "post",
+          body: register,
           headers: {
             "Content-type": "application/json; charset=UTF-8",
           },
@@ -30,4 +42,4 @@ export const accountsApi = BaseApi.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useLoginMutation } = accountsApi;
+export const { useLoginMutation, useRegisterMutation } = accountsApi;

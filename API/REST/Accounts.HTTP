@@ -6,7 +6,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "email": "cs7@cs.cs",
+  "email": "cs8@cs.cs",
   "password": "Password1"
 }
 ###

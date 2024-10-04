@@ -19,7 +19,7 @@ export const BaseApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.REACT_APP_API_URL,
     prepareHeaders: (headers, { getState }) => {
-      const token = (getState() as RootState).accounts.token;
+      const token = (getState() as RootState).accounts.userInfo?.token;
       if (token) {
         headers.set("authorization", `Bearer ${token}`);
       }
