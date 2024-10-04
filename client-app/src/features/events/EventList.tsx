@@ -2,22 +2,15 @@ import React from "react";
 import { Container } from "@mui/material";
 import { eventsApi } from "./eventsApi";
 import EventListItem from "./EventListItem";
-import { Event } from "../../app/models/event";
-import { Virtuoso } from "react-virtuoso";
-import EndlessListFooter from "../core/EndlessListFooter";
+import EndlessList from "../core/EndlessList";
 
 const EventList = () => {
   const [page, setPage] = React.useState(0);
   const { data: eventList, error, isLoading } = eventsApi.useGetEventsListQuery({ pageNumber: page });
 
-  const loadMore = React.useCallback(() => {
-    if (isLoading || !eventList?.hasMorePages) {
-      return;
-    }
-    return setTimeout(() => {
-      setPage((prev) => prev + 1);
-    }, 500);
-  }, [isLoading, eventList?.hasMorePages]);
+  const nextPage = () => {
+    setPage((prev) => prev + 1);
+  };
 
   if (error) return <p>Error happened</p>;
   if (isLoading) return <p>Loading...</p>;
@@ -25,16 +18,12 @@ const EventList = () => {
   return (
     <Container>
       <h1>Events</h1>
-      {eventList && (
-        <Virtuoso
-          useWindowScroll
-          data={eventList.items}
-          endReached={loadMore}
-          increaseViewportBy={200}
-          itemContent={(index, event: Event) => <EventListItem event={event} key={event.id} />}
-          components={{ Footer: () => <EndlessListFooter hasMorePages={eventList?.hasMorePages} /> }}
-        />
-      )}
+      <EndlessList
+        dataList={eventList}
+        nextPage={nextPage}
+        isLoading={isLoading}
+        render={(event, index) => <EventListItem event={event} key={event.id} />}
+      />
     </Container>
   );
 };

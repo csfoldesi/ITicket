@@ -1,49 +1,42 @@
-import axios from "axios";
 import { createAppSlice } from "../../app/store/createAppSlice";
 import { Venue } from "../../app/models/venue";
-
-axios.defaults.baseURL = process.env.REACT_APP_API_URL;
+import { venuesApi } from "./venuesApi";
 
 export interface VenuesState {
   venueList: Venue[];
-  status: "idle" | "loading" | "failed";
+  currentPage: number;
+  hasMorePages: boolean;
 }
 
 const initialState: VenuesState = {
   venueList: [],
-  status: "idle",
+  currentPage: 0,
+  hasMorePages: true,
 };
 
 export const venuesStore = createAppSlice({
   name: "venues",
   initialState,
-  reducers: (create) => ({
-    loadAsync: create.asyncThunk(
-      async () => {
-        const result = await axios.get<Venue>("/venues");
-        return result.data;
-      },
-      {
-        pending: (state) => {
-          state.status = "loading";
-        },
-        fulfilled: (state, action) => {
-          state.status = "idle";
-          console.log(action.payload);
-        },
-        rejected: (state) => {
-          state.status = "failed";
-        },
-      }
-    ),
-  }),
+  reducers: {
+    nextPage: (state) => {
+      state.currentPage += 1;
+    },
+  },
+  /*extraReducers: (builder) => {
+    builder.addMatcher(venuesApi.endpoints.getVenuesList.matchFulfilled, (state, { payload }) => {
+      state.venueList = [...state.venueList, ...payload.items];
+      state.hasMorePages = payload.currentPage < payload.totalPages - 1;
+      state.currentPage = payload.currentPage;
+    });
+  },*/
   selectors: {
     selectVenueList: (venues) => venues.venueList,
+    selectHasMorePages: (events) => events.hasMorePages,
+    selectCurrentPage: (events) => events.currentPage,
   },
 });
 
-export const { loadAsync } = venuesStore.actions;
-
-export const { selectVenueList } = venuesStore.selectors;
+export const { nextPage } = venuesStore.actions;
+export const { selectVenueList, selectHasMorePages, selectCurrentPage } = venuesStore.selectors;
 
 export default venuesStore.reducer;
