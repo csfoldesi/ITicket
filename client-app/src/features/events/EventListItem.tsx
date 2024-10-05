@@ -1,9 +1,9 @@
 import { Card, CardContent, Typography } from "@mui/material";
-import { Event } from "../../app/models/event";
+import { EventModel } from "../../app/models/eventModels";
 import { Link } from "react-router-dom";
 
 interface Props {
-  event: Event;
+  event: EventModel;
 }
 
 const EventListItem = ({ event }: Props) => {

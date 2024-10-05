@@ -1,16 +1,16 @@
 import { BaseApi, ListResponse, PagedQuery } from "../../app/baseApi";
-import { Venue } from "../../app/models/venue";
+import { VenueModel } from "../../app/models/venueModels";
 
 export const venuesApi = BaseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getVenuesList: builder.query<ListResponse<Venue>, PagedQuery>({
+    getVenuesList: builder.query<ListResponse<VenueModel>, PagedQuery>({
       query: (arg) => {
         return {
           url: "venues",
           params: { ...arg },
         };
       },
-      transformResponse: (response: ListResponse<Venue>) => {
+      transformResponse: (response: ListResponse<VenueModel>) => {
         return { ...response, hasMorePages: response.currentPage < response.totalPages - 1 };
       },
       serializeQueryArgs: ({ queryArgs }) => {
@@ -26,7 +26,7 @@ export const venuesApi = BaseApi.injectEndpoints({
         return currentArg !== previousArg;
       },
     }),
-    getVenueDetail: builder.query<Venue, string>({
+    getVenueDetail: builder.query<VenueModel, string>({
       query: (id) => `venues/${id}`,
     }),
   }),

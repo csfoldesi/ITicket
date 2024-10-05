@@ -1,9 +1,9 @@
 import { createAppSlice } from "../../app/store/createAppSlice";
-import { Venue } from "../../app/models/venue";
+import { VenueModel } from "../../app/models/venueModels";
 import { venuesApi } from "./venuesApi";
 
 export interface VenuesState {
-  venueList: Venue[];
+  venueList: VenueModel[];
   currentPage: number;
   hasMorePages: boolean;
 }

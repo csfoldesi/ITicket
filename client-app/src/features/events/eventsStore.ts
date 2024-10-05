@@ -1,9 +1,9 @@
-import { Event } from "../../app/models/event";
+import { EventModel } from "../../app/models/eventModels";
 import { createAppSlice } from "../../app/store/createAppSlice";
 import { eventsApi } from "./eventsApi";
 
 interface EventsState {
-  eventList: Event[];
+  eventList: EventModel[];
   currentPage: number;
   hasMorePages: boolean;
 }

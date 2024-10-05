@@ -1,9 +1,9 @@
 import { Card, CardContent, Typography } from "@mui/material";
-import { Venue } from "../../app/models/venue";
+import { VenueModel } from "../../app/models/venueModels";
 import { Link } from "react-router-dom";
 
 interface Props {
-  venue: Venue;
+  venue: VenueModel;
 }
 
 const VenueListItem = ({ venue }: Props) => {
