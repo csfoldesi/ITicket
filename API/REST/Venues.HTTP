@@ -22,11 +22,11 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "name": "Mátyás-templom",
-  "description": "Mátyás-templom",
+  "name": "Mátyás-templom edited",
+  "description": "Mátyás-templom edited",
   "address": {
     "country": "Magyarország",
-    "zipCode": "1014",
+    "zipCode": "1024",
     "city": "Budapest",
     "street": "Szentháromság tér 2."
   }
@@ -40,7 +40,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "name": "Magyar Állami Operaház",
+  "name": "Magyar Állami Operaház 3",
   "description": "Magyar Állami Operaház",
   "address": {
     "country": "Magyarország",

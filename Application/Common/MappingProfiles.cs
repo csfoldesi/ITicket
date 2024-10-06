@@ -9,5 +9,6 @@ public class MappingProfiles : AutoMapper.Profile
         CreateMap<Venue, Venue>();
         CreateMap<Event, Event>();
         CreateMap<Events.CreateEditDto, Event>();
+        CreateMap<Venues.CreateEditDto, Venue>();
     }
 }

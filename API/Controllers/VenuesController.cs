@@ -22,9 +22,9 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateVenue(Venue venue)
+        public async Task<IActionResult> CreateVenue(CreateEditDto venueDto)
         {
-            var result = await Mediator.Send(new Create.Command { Venue = venue });
+            var result = await Mediator.Send(new Create.Command { VenueDto = venueDto });
             return HandleResult(result);
         }
 
@@ -36,10 +36,10 @@ namespace API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> EditVenue(Guid id, Venue venue)
+        public async Task<IActionResult> EditVenue(Guid id, CreateEditDto venueDto)
         {
-            venue.Id = id;
-            var result = await Mediator.Send(new Edit.Command { Venue = venue });
+            venueDto.Id = id;
+            var result = await Mediator.Send(new Edit.Command { VenueDto = venueDto });
             return HandleResult(result);
         }
     }

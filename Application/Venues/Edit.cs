@@ -10,7 +10,7 @@ public class Edit
 {
     public class Command : IRequest<Result<Venue>>
     {
-        public required Venue Venue { get; set; }
+        public required CreateEditDto VenueDto { get; set; }
     }
 
     public class Handler : IRequestHandler<Command, Result<Venue>>
@@ -29,14 +29,14 @@ public class Edit
             CancellationToken cancellationToken
         )
         {
-            var venue = await _dataContext.Venues.FindAsync(request.Venue.Id);
+            var venue = await _dataContext.Venues.FindAsync(request.VenueDto.Id);
 
             if (venue == null)
             {
                 return Result<Venue>.NotFound();
             }
 
-            _mapper.Map(request.Venue, venue);
+            _mapper.Map(request.VenueDto, venue);
 
             var result = await _dataContext.SaveChangesAsync(cancellationToken);
 
