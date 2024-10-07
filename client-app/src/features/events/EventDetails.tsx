@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEditEventMutation, useGetEventDetailQuery } from "./eventsApi";
 import { Button, Dialog, DialogContent, DialogTitle } from "@mui/material";
 import React from "react";
-import CreateEventForm from "./forms/CreateEventForm";
+import CreateEditEventForm from "./forms/CreateEditEventForm";
 import { Event, EventModel } from "../../app/models/eventModels";
 
 const EventDetails = () => {
@@ -38,7 +38,7 @@ const EventDetails = () => {
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Edit event</DialogTitle>
         <DialogContent>
-          <CreateEventForm onSubmit={onSubmit} onCancel={handleClose} event={event} />
+          <CreateEditEventForm onSubmit={onSubmit} onCancel={handleClose} event={event} />
         </DialogContent>
       </Dialog>
     </>

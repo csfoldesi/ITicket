@@ -22,7 +22,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "name": "Mátyás-templom edited",
+  "name": "Mátyás-templom edited 2",
   "description": "Mátyás-templom edited",
   "address": {
     "country": "Magyarország",
@@ -40,7 +40,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "name": "Magyar Állami Operaház 3",
+  "name": "Magyar Állami Operaház 4",
   "description": "Magyar Állami Operaház",
   "address": {
     "country": "Magyarország",

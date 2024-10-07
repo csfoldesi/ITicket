@@ -1,7 +1,7 @@
 import { Venue, VenueModel } from "./venueModels";
 
 export type EventModel = {
-  id: string;
+  id?: string;
   title: string;
   description: string;
   dateTime: Date;
@@ -19,7 +19,7 @@ export type CreateEventModel = {
 export class Event {
   static EventModel(): EventModel {
     return {
-      id: "",
+      id: undefined,
       title: "",
       description: "",
       dateTime: new Date(),
@@ -30,7 +30,7 @@ export class Event {
   static EventModel_CreateEventModel(source: EventModel): CreateEventModel {
     return {
       id: source.id,
-      venueId: source.venue.id,
+      venueId: source.venue.id!,
       title: source.title,
       description: source.description,
       dateTime: source.dateTime.toISOString(),

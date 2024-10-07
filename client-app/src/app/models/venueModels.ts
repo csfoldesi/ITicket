@@ -1,5 +1,17 @@
 export type VenueModel = {
-  id: string;
+  id?: string;
+  name: string;
+  description?: string;
+  address: {
+    country: string;
+    zipCode: string;
+    city: string;
+    street: string;
+  };
+};
+
+export type CreateVenueModel = {
+  id?: string;
   name: string;
   description?: string;
   address: {
@@ -13,7 +25,7 @@ export type VenueModel = {
 export class Venue {
   static VenueModel(): VenueModel {
     return {
-      id: "",
+      id: undefined,
       name: "",
       description: "",
       address: {
@@ -23,5 +35,9 @@ export class Venue {
         street: "",
       },
     };
+  }
+
+  static VenueModel_CreateVenueModel(source: VenueModel): CreateVenueModel {
+    return { ...source};
   }
 }

@@ -1,5 +1,6 @@
 import { BaseApi, ListResponse, PagedQuery } from "../../app/baseApi";
-import { VenueModel } from "../../app/models/venueModels";
+import { CreateEventModel } from "../../app/models/eventModels";
+import { CreateVenueModel, VenueModel } from "../../app/models/venueModels";
 
 export const venuesApi = BaseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -10,6 +11,7 @@ export const venuesApi = BaseApi.injectEndpoints({
           params: { ...arg },
         };
       },
+      providesTags: ["Venue"],
       transformResponse: (response: ListResponse<VenueModel>) => {
         return { ...response, hasMorePages: response.currentPage < response.totalPages - 1 };
       },
@@ -28,9 +30,37 @@ export const venuesApi = BaseApi.injectEndpoints({
     }),
     getVenueDetail: builder.query<VenueModel, string>({
       query: (id) => `venues/${id}`,
+      providesTags: ["Venue"],
+    }),
+    createVenue: builder.mutation<VenueModel, CreateVenueModel>({
+      query: (data) => {
+        return {
+          url: "venues",
+          method: "post",
+          body: data,
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        };
+      },
+      invalidatesTags: ["Venue"],
+    }),
+    editVenue: builder.mutation<VenueModel, CreateVenueModel>({
+      query: (data) => {
+        return {
+          url: `venues/${data.id}`,
+          method: "put",
+          body: data,
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        };
+      },
+      invalidatesTags: ["Venue"],
     }),
   }),
   overrideExisting: false,
 });
 
-export const { useGetVenuesListQuery, useGetVenueDetailQuery } = venuesApi;
+export const { useGetVenuesListQuery, useGetVenueDetailQuery, useCreateVenueMutation, useEditVenueMutation } =
+  venuesApi;

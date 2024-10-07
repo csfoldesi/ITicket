@@ -1,11 +1,25 @@
-import { venuesApi } from "./venuesApi";
+import { useCreateVenueMutation, venuesApi } from "./venuesApi";
 import VenueListItem from "./VenueListItem";
 import React from "react";
+import AddIcon from "@mui/icons-material/Add";
 import EndlessList from "../core/EndlessList";
+import { Venue, VenueModel } from "../../app/models/venueModels";
+import { Button, Dialog, DialogContent, DialogTitle } from "@mui/material";
+import CreateEditVenueForm from "./forms/CreateEditVenueForm";
 
 const VenueList = () => {
   const [page, setPage] = React.useState(0);
   const { data: venueList, error, isLoading } = venuesApi.useGetVenuesListQuery({ pageNumber: page });
+  const [createVenue] = useCreateVenueMutation();
+
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const onSubmit = async (venue: VenueModel) => {
+    await createVenue(Venue.VenueModel_CreateVenueModel(venue));
+    handleClose();
+  };
 
   const nextPage = () => {
     setPage((prev) => prev + 1);
@@ -17,12 +31,21 @@ const VenueList = () => {
   return (
     <>
       <h1>Venues</h1>
+      <Button variant="contained" onClick={handleOpen} startIcon={<AddIcon />}>
+        New Venue
+      </Button>
       <EndlessList
         dataList={venueList}
         nextPage={nextPage}
         isLoading={isLoading}
         render={(venue, index) => <VenueListItem venue={venue} key={venue.id} />}
       />
+      <Dialog open={open} onClose={handleClose} maxWidth={"lg"} fullWidth>
+        <DialogTitle>Create new venue</DialogTitle>
+        <DialogContent>
+          <CreateEditVenueForm onSubmit={onSubmit} onCancel={handleClose} venue={Venue.VenueModel()} />
+        </DialogContent>
+      </Dialog>
     </>
   );
 };

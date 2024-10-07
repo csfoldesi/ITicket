@@ -12,7 +12,7 @@ interface Props {
   event: EventModel;
 }
 
-const CreateEventForm = ({ onSubmit: parentOnSubmit, onCancel, event: currentEvent }: Props) => {
+const CreateEditEventForm = ({ onSubmit: parentOnSubmit, onCancel, event: currentEvent }: Props) => {
   const { register, handleSubmit, control } = useForm<EventModel>({ defaultValues: currentEvent });
 
   const onSubmit: SubmitHandler<EventModel> = (data, event) => {
@@ -67,4 +67,4 @@ const CreateEventForm = ({ onSubmit: parentOnSubmit, onCancel, event: currentEve
   );
 };
 
-export default CreateEventForm;
+export default CreateEditEventForm;

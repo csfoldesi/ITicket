@@ -1,24 +1,37 @@
 import React from "react";
+import AddIcon from '@mui/icons-material/Add';
 import { useParams } from "react-router-dom";
-import { useGetVenueDetailQuery } from "./venuesApi";
-import { Button, Dialog, DialogContent, DialogTitle } from "@mui/material";
+import { useEditVenueMutation, useGetVenueDetailQuery } from "./venuesApi";
+import { Box, Button, Dialog, DialogContent, DialogTitle } from "@mui/material";
 import { useCreateEventMutation } from "../events/eventsApi";
 import { Event, EventModel } from "../../app/models/eventModels";
 import VenueEventList from "../events/VenueEventList";
-import CreateEventForm from "../events/forms/CreateEventForm";
+import CreateEditEventForm from "../events/forms/CreateEditEventForm";
+import CreateEditVenueForm from "./forms/CreateEditVenueForm";
+import { Venue, VenueModel } from "../../app/models/venueModels";
 
 const VenueDetails = () => {
   let { id: venueId } = useParams<{ id: string }>();
   const { data: venue, error, isLoading } = useGetVenueDetailQuery(venueId ?? "");
   const [createEvent] = useCreateEventMutation();
+  const [editVenue] = useEditVenueMutation();
 
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [eventOpen, setEventOpen] = React.useState(false);
+  const handleEventOpen = () => setEventOpen(true);
+  const handleEventClose = () => setEventOpen(false);
 
-  const onSubmit = async (event: EventModel) => {
+  const [venueOpen, setVenueOpen] = React.useState(false);
+  const handleVenueOpen = () => setVenueOpen(true);
+  const handleVenueClose = () => setVenueOpen(false);
+
+  const onEventSubmit = async (event: EventModel) => {
     await createEvent(Event.EventModel_CreateEventModel(event));
-    handleClose();
+    handleEventClose();
+  };
+
+  const onVenueSubmit = async (venue: VenueModel) => {
+    await editVenue(Venue.VenueModel_CreateVenueModel(venue));
+    handleVenueClose();
   };
 
   if (error) return <p>Error happened</p>;
@@ -34,13 +47,28 @@ const VenueDetails = () => {
       <p>
         {venue?.address.zipCode}, {venue?.address.city}, {venue?.address.street}
       </p>
-      <Button variant="contained" onClick={handleOpen}>
-        New Event
-      </Button>
-      <Dialog open={open} onClose={handleClose}>
+      <Box component={"div"}>
+        <Button variant="contained" onClick={handleVenueOpen} sx={{ marginRight: "1em" }}>
+          Edit Venue
+        </Button>
+        <Button variant="contained" onClick={handleEventOpen} startIcon={<AddIcon />}>
+          New Event
+        </Button>
+      </Box>
+      <Dialog open={eventOpen} onClose={handleEventClose}>
         <DialogTitle>Create new event</DialogTitle>
         <DialogContent>
-          <CreateEventForm onSubmit={onSubmit} onCancel={handleClose} event={{ ...Event.EventModel(), venue: venue }} />
+          <CreateEditEventForm
+            onSubmit={onEventSubmit}
+            onCancel={handleEventClose}
+            event={{ ...Event.EventModel(), venue: venue }}
+          />
+        </DialogContent>
+      </Dialog>
+      <Dialog open={venueOpen} onClose={handleVenueClose}>
+        <DialogTitle>Edit Venue</DialogTitle>
+        <DialogContent>
+          <CreateEditVenueForm onSubmit={onVenueSubmit} onCancel={handleVenueClose} venue={venue} />
         </DialogContent>
       </Dialog>
       {venueId && <VenueEventList venueId={venueId!} />}
