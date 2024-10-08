@@ -1,6 +1,8 @@
 ﻿using API.Dto;
 using Application.Common.Interfaces;
+using Domain.Interfaces;
 using Infrastructure.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -9,12 +11,15 @@ public class AccountsController : BaseApiController
 {
     private readonly TokenService _tokenService;
     private readonly IIdentityService _identityService;
+    private readonly IUser _user;
 
-    public AccountsController(TokenService tokenService, IIdentityService identityService)
+    public AccountsController(TokenService tokenService, IIdentityService identityService, IUser user)
     {
         _tokenService = tokenService;
         _identityService = identityService;
+        _user = user;
     }
+
 
     [HttpPost("register")]
     public async Task<IActionResult> Create(CreateAccountDto createAccount)
@@ -64,10 +69,11 @@ public class AccountsController : BaseApiController
         }
     }
 
+    [Authorize]
     [HttpGet]
     public async Task<IActionResult> GetProfile()
     {
-        var result = await _identityService.GetUserProfileAsync();
+        var result = await _identityService.GetUserProfileAsync(_user.Id);
         if (result.ResultCode == Application.Common.ResultCode.Success)
         {
             var user = result.Value!;

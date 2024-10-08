@@ -29,6 +29,7 @@ public class EventsController : BaseApiController
         return HandleResult(result);
     }
 
+    [Authorize]
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteEvent(Guid id)
     {
@@ -36,6 +37,7 @@ public class EventsController : BaseApiController
         return HandleResult(result);
     }
 
+    [Authorize]
     [HttpPut("{id}")]
     public async Task<IActionResult> EditEvent(Guid id, CreateEditDto eventDto)
     {

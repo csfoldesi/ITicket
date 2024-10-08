@@ -4,13 +4,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Persistence;
 
-public class DataContext(DbContextOptions options) : IdentityDbContext<User>(options)
+public class DataContext : IdentityDbContext<User>
 {
     public DbSet<Address> Addresses { get; set; }
 
     public DbSet<Venue> Venues { get; set; }
 
     public DbSet<Event> Events { get; set; }
+
+    //public DataContext() { }
+
+    public DataContext(DbContextOptions options)
+        : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

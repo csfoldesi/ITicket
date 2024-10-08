@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using API.Services;
 using Domain;
+using Domain.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
@@ -18,6 +19,8 @@ public static class ApplicationServiceExtensions
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
+        services.AddScoped<IUser, CurrentUser>();
+        services.AddHttpContextAccessor();
 
         services.AddCors(options =>
         {
@@ -68,8 +71,6 @@ public static class ApplicationServiceExtensions
             });
 
         services.AddAuthorization();
-
-        services.AddScoped<TokenService>();
 
         return services;
     }

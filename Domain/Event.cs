@@ -1,9 +1,9 @@
-﻿namespace Domain;
+﻿using Domain.Common;
 
-public class Event
+namespace Domain;
+
+public class Event : BaseAuditableEntity
 {
-    public Guid Id { get; set; }
-
     public required string Title { get; set; }
 
     public string? Description { get; set; }

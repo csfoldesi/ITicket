@@ -1,8 +1,6 @@
-﻿using System.Security.Claims;
-using Application.Common;
+﻿using Application.Common;
 using Application.Common.Interfaces;
 using Domain;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,18 +10,14 @@ public class IdentityService : IIdentityService
 {
     private readonly UserManager<User> _userManager;
     private readonly SignInManager<User> _signInManager;
-    private readonly IHttpContextAccessor _httpContextAccessor;
 
     public IdentityService(
         UserManager<User> userManager,
-        SignInManager<User> signInManager,
-        TokenService tokenService,
-        IHttpContextAccessor httpContextAccessor
+        SignInManager<User> signInManager
     )
     {
         _userManager = userManager;
         _signInManager = signInManager;
-        _httpContextAccessor = httpContextAccessor;
     }
 
     public async Task<Result<User>> CreateUserAsync(string email, string password)
@@ -50,11 +44,8 @@ public class IdentityService : IIdentityService
             : Result<User>.Failure("Unauthorized access");
     }
 
-    public async Task<Result<User>> GetUserProfileAsync()
+    public async Task<Result<User>> GetUserProfileAsync(string? userId)
     {
-        var userId = _httpContextAccessor.HttpContext!.User.FindFirstValue(
-            ClaimTypes.NameIdentifier
-        );
         var user = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == userId);
         if (user == null)
         {

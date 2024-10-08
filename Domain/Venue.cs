@@ -1,9 +1,9 @@
-﻿namespace Domain;
+﻿using Domain.Common;
 
-public class Venue
+namespace Domain;
+
+public class Venue : BaseAuditableEntity
 {
-    public Guid Id { get; set; }
-
     public required string Name { get; set; }
 
     public string? Description { get; set; }

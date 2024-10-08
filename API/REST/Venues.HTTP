@@ -1,4 +1,19 @@
 @API_HostAddress = http://localhost:5000/api/venues
+@API_HostAddressLogin = http://localhost:5000/api/accounts
+
+# Login
+# @name postLogin
+POST {{API_HostAddressLogin}}
+Accept: application/json
+Content-Type: application/json
+
+{
+  "email": "cs@cs.cs",
+  "password": "Password1"
+}
+###
+@token = {{postLogin.response.body.token}}
+
 
 #Get Venue
 GET {{API_HostAddress}}/A11B1817-4AEA-4032-8995-86BB2FD13D62
@@ -20,9 +35,10 @@ Content-Type: application/json
 PUT {{API_HostAddress}}/A11B1817-4AEA-4032-8995-86BB2FD13D62
 Accept: application/json
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
-  "name": "Mátyás-templom edited 2",
+  "name": "Mátyás-templom edited",
   "description": "Mátyás-templom edited",
   "address": {
     "country": "Magyarország",

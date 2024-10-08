@@ -57,9 +57,10 @@ Authorization: Bearer {{token}}
 PUT {{API_HostAddress}}/f48cb999-121c-429c-82fa-72bbaefbc516
 Accept: application/json
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
-  "title": "Necc Party New",
+  "title": "Necc Party New 1",
   "description": "Necc Party description",
   "dateTime": "2024-09-23T21:00",
   "venueId": "32eb4144-50d7-40b0-9ed0-417a02a0c82b"

@@ -1,6 +1,7 @@
 ﻿using Application.Venues;
 using Application.Venues.Query;
 using Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -21,6 +22,7 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateVenue(CreateEditDto venueDto)
         {
@@ -28,6 +30,7 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteVenue(Guid id)
         {
@@ -35,6 +38,7 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> EditVenue(Guid id, CreateEditDto venueDto)
         {
