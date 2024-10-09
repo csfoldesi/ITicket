@@ -63,9 +63,26 @@ export const eventsApi = BaseApi.injectEndpoints({
       },
       invalidatesTags: ["Event"],
     }),
+    deleteEvent: builder.mutation<void, string>({
+      query: (id) => {
+        return {
+          url: `events/${id}`,
+          method: "delete",
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        };
+      },
+      invalidatesTags: ["Event"],
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useGetEventsListQuery, useGetEventDetailQuery, useCreateEventMutation, useEditEventMutation } =
-  eventsApi;
+export const {
+  useGetEventsListQuery,
+  useGetEventDetailQuery,
+  useCreateEventMutation,
+  useEditEventMutation,
+  useDeleteEventMutation,
+} = eventsApi;

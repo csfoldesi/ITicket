@@ -17,7 +17,7 @@ Content-Type: application/json
 
 
 #Get Event
-GET {{API_HostAddress}}/f48cb999-121c-429c-82fa-72bbaefbc516
+GET {{API_HostAddress}}/9480e7b2-0f58-4680-8326-0cf824ab9110
 Accept: application/json
 Content-Type: application/json
 
@@ -69,8 +69,9 @@ Authorization: Bearer {{token}}
 
 
 # Delete Event
-DELETE {{API_HostAddress}}/4cad48f4-31e2-407a-ac83-dd1b6aef601d
+DELETE {{API_HostAddress}}/9480e7b2-0f58-4680-8326-0cf824ab9110
 Accept: application/json
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 ###
