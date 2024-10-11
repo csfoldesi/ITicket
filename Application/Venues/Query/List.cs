@@ -27,7 +27,8 @@ public class List
         )
         {
             var result = await _dataContext
-                .Venues.OrderBy(x => x.Name)
+                .Venues.Where(x => !x.IsDeleted)
+                .OrderBy(x => x.Name)
                 .ThenBy(x => x.Id)
                 .PaginatedListAsync(request.Params.PageNumber, request.Params.PageSize);
 

@@ -25,8 +25,9 @@ public class Get
         public async Task<Result<Event>> Handle(Query request, CancellationToken cancellationToken)
         {
             var result = await _dataContext
-                .Events.Where(x => x.Id == request.Id)
+                .Events.Where(x => x.Id == request.Id && !x.IsDeleted)
                 .Include(x => x.Venue)
+                .Where(x => !x.Venue.IsDeleted)
                 .FirstOrDefaultAsync(cancellationToken);
 
             if (result == null)

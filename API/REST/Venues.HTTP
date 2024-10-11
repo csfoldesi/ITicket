@@ -16,7 +16,7 @@ Content-Type: application/json
 
 
 #Get Venue
-GET {{API_HostAddress}}/a935621c-de35-4e89-a060-94eb3f34f87e
+GET {{API_HostAddress}}/4E5FA185-73DE-449A-BB58-4C9A51D0AD45
 Accept: application/json
 Content-Type: application/json
 
@@ -54,6 +54,7 @@ Authorization: Bearer {{token}}
 POST {{API_HostAddress}}
 Accept: application/json
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
   "name": "Magyar Állami Operaház 4",
@@ -69,8 +70,9 @@ Content-Type: application/json
 
 
 # Delete Venue
-DELETE {{API_HostAddress}}/29c9da2c-320c-46cd-901a-669228614aa3
+DELETE {{API_HostAddress}}/4E5FA185-73DE-449A-BB58-4C9A51D0AD45
 Accept: application/json
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 ###

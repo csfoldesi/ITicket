@@ -1,6 +1,7 @@
 ﻿using Application.Common;
 using Domain;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.Venues.Query;
@@ -23,7 +24,10 @@ public class Get
 
         public async Task<Result<Venue>> Handle(Query request, CancellationToken cancellationToken)
         {
-            var venue = await _dataContext.Venues.FindAsync(request.Id);
+            var venue = await _dataContext.Venues.FirstOrDefaultAsync(
+                x => x.Id == request.Id && !x.IsDeleted,
+                cancellationToken: cancellationToken
+            );
 
             if (venue == null)
             {

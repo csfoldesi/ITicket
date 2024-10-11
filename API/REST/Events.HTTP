@@ -17,7 +17,7 @@ Content-Type: application/json
 
 
 #Get Event
-GET {{API_HostAddress}}/9480e7b2-0f58-4680-8326-0cf824ab9110
+GET {{API_HostAddress}}/13fa8fa9-eed0-46a6-87d2-6582f62b2f1b
 Accept: application/json
 Content-Type: application/json
 
@@ -31,7 +31,7 @@ Content-Type: application/json
 ###
 
 #Get Event list by Venue
-GET {{API_HostAddress}}?venue=a935621c-de35-4e89-a060-94eb3f34f87e
+GET {{API_HostAddress}}?venue=4E5FA185-73DE-449A-BB58-4C9A51D0AD45
 Accept: application/json
 Content-Type: application/json
 
@@ -69,7 +69,7 @@ Authorization: Bearer {{token}}
 
 
 # Delete Event
-DELETE {{API_HostAddress}}/9480e7b2-0f58-4680-8326-0cf824ab9110
+DELETE {{API_HostAddress}}/13fa8fa9-eed0-46a6-87d2-6582f62b2f1b
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}

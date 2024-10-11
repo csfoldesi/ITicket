@@ -30,8 +30,7 @@ public class Delete
                 return Result<Unit>.NotFound();
             }
 
-            _dataContext.Events.Remove(selectedEvent);
-
+            selectedEvent.IsDeleted = true;
             try
             {
                 await _dataContext.SaveChangesAsync(cancellationToken);

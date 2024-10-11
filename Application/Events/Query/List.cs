@@ -27,7 +27,9 @@ public class List
             CancellationToken cancellationToken
         )
         {
-            var query = _dataContext.Events.Include(x => x.Venue) as IQueryable<Event>;
+            var query = _dataContext
+                .Events.Include(x => x.Venue)
+                .Where(x => !x.IsDeleted && !x.Venue.IsDeleted);
             if (request.QueryParams.Venue != null)
             {
                 query = query.Where(x => x.Venue.Id == request.QueryParams.Venue);

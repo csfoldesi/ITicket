@@ -1,5 +1,6 @@
 ﻿using Application.Common;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.Venues;
@@ -29,7 +30,12 @@ public class Delete
                 return Result<Unit>.NotFound();
             }
 
-            _dataContext.Venues.Remove(venue);
+            venue.IsDeleted = true;
+            var venueEvents = await _dataContext
+                .Events.Where(x => x.Venue.Id == request.Id)
+                .ToListAsync(cancellationToken: cancellationToken);
+            venueEvents.ForEach(x => x.IsDeleted = true);
+
             var result = await _dataContext.SaveChangesAsync(cancellationToken);
 
             if (result == 0)
