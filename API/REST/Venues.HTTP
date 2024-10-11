@@ -16,7 +16,7 @@ Content-Type: application/json
 
 
 #Get Venue
-GET {{API_HostAddress}}/A11B1817-4AEA-4032-8995-86BB2FD13D62
+GET {{API_HostAddress}}/a935621c-de35-4e89-a060-94eb3f34f87e
 Accept: application/json
 Content-Type: application/json
 

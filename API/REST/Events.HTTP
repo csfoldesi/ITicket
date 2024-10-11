@@ -31,7 +31,7 @@ Content-Type: application/json
 ###
 
 #Get Event list by Venue
-GET {{API_HostAddress}}?venue=32eb4144-50d7-40b0-9ed0-417a02a0c82b
+GET {{API_HostAddress}}?venue=a935621c-de35-4e89-a060-94eb3f34f87e
 Accept: application/json
 Content-Type: application/json
 

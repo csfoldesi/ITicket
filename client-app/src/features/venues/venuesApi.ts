@@ -58,9 +58,26 @@ export const venuesApi = BaseApi.injectEndpoints({
       },
       invalidatesTags: ["Venue"],
     }),
+    deleteVenue: builder.mutation<void, string>({
+      query: (id) => {
+        return {
+          url: `venues/${id}`,
+          method: "delete",
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        };
+      },
+      invalidatesTags: ["Venue"],
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useGetVenuesListQuery, useGetVenueDetailQuery, useCreateVenueMutation, useEditVenueMutation } =
-  venuesApi;
+export const {
+  useGetVenuesListQuery,
+  useGetVenueDetailQuery,
+  useCreateVenueMutation,
+  useEditVenueMutation,
+  useDeleteVenueMutation,
+} = venuesApi;
