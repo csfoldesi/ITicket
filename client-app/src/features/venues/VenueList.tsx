@@ -7,6 +7,7 @@ import { Venue, VenueModel } from "../../app/models/venueModels";
 import { Button, Dialog, DialogContent, DialogTitle } from "@mui/material";
 import CreateEditVenueForm from "./forms/CreateEditVenueForm";
 import { useNavigate } from "react-router-dom";
+import Error from "../core/Error";
 
 const VenueList = () => {
   const [page, setPage] = React.useState(0);
@@ -30,7 +31,9 @@ const VenueList = () => {
     setPage((prev) => prev + 1);
   };
 
-  if (error) return <p>Error happened</p>;
+  if (error) {
+    return <Error error={error} />;
+  }
   if (isLoading) return <p>Loading...</p>;
 
   return (

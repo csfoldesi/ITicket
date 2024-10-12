@@ -5,6 +5,7 @@ import React from "react";
 import CreateEditEventForm from "./forms/CreateEditEventForm";
 import { Event, EventModel } from "../../app/models/eventModels";
 import AlertDialog from "../core/AlertDialog";
+import Error from "../core/Error";
 
 const EventDetails = () => {
   let { id } = useParams<{ id: string }>();
@@ -29,7 +30,9 @@ const EventDetails = () => {
     handleClose();
   };
 
-  if (error) return <p>Error happened</p>;
+  if (error) {
+    return <Error error={error} />;
+  }
 
   if (isLoading) return <p>Loading...</p>;
 

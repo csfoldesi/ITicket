@@ -10,6 +10,7 @@ import CreateEditEventForm from "../events/forms/CreateEditEventForm";
 import CreateEditVenueForm from "./forms/CreateEditVenueForm";
 import { Venue, VenueModel } from "../../app/models/venueModels";
 import AlertDialog from "../core/AlertDialog";
+import Error from "../core/Error";
 
 const VenueDetails = () => {
   let { id: venueId } = useParams<{ id: string }>();
@@ -44,7 +45,9 @@ const VenueDetails = () => {
     handleVenueClose();
   };
 
-  if (error) return <p>Error happened</p>;
+  if (error) {
+    return <Error error={error} />;
+  }
 
   if (isLoading) return <p>Loading...</p>;
 

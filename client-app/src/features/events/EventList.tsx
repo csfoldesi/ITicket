@@ -3,6 +3,7 @@ import { Container } from "@mui/material";
 import { eventsApi } from "./eventsApi";
 import EventListItem from "./EventListItem";
 import EndlessList from "../core/EndlessList";
+import Error from "../core/Error";
 
 const EventList = () => {
   const [page, setPage] = React.useState(0);
@@ -12,7 +13,9 @@ const EventList = () => {
     setPage((prev) => prev + 1);
   };
 
-  if (error) return <p>Error happened</p>;
+  if (error) {
+    return <Error error={error} />;
+  }
   if (isLoading) return <p>Loading...</p>;
 
   return (

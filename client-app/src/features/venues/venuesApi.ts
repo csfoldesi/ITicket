@@ -1,5 +1,4 @@
 import { BaseApi, ListResponse, PagedQuery } from "../../app/baseApi";
-import { CreateEventModel } from "../../app/models/eventModels";
 import { CreateVenueModel, VenueModel } from "../../app/models/venueModels";
 
 export const venuesApi = BaseApi.injectEndpoints({
