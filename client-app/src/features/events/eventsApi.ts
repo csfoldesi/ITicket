@@ -1,4 +1,4 @@
-import { BaseApi, ListResponse, PagedQuery } from "../../app/baseApi";
+import { ApiResponse, BaseApi, ListResponse, PagedQuery } from "../../app/baseApi";
 import { CreateEventModel, EventModel } from "../../app/models/eventModels";
 
 interface EventQueryParams extends PagedQuery {
@@ -17,10 +17,10 @@ export const eventsApi = BaseApi.injectEndpoints({
         };
       },
       providesTags: ["Event"],
-      transformResponse: (response: ListResponse<EventModel>) => {
-        return { ...response, hasMorePages: response.currentPage < response.totalPages - 1 };
+      transformResponse: (response: ApiResponse<ListResponse<EventModel>>): ListResponse<EventModel> => {
+        return { ...response.data!, hasMorePages: response.data!.currentPage < response.data!.totalPages - 1 };
       },
-      serializeQueryArgs: ({ queryArgs, endpointName }) => {
+      serializeQueryArgs: ({ queryArgs }) => {
         return { ...queryArgs, pageNumber: 0 };
       },
       merge: (currentCache, newItems, { arg }) => {
@@ -36,6 +36,7 @@ export const eventsApi = BaseApi.injectEndpoints({
     getEventDetail: builder.query<EventModel, string>({
       query: (id) => `events/${id}`,
       providesTags: ["Event"],
+      transformResponse: (response: ApiResponse<EventModel>): EventModel => response.data!,
     }),
     createEvent: builder.mutation<EventModel, CreateEventModel>({
       query: (createEvent) => {
@@ -49,6 +50,7 @@ export const eventsApi = BaseApi.injectEndpoints({
         };
       },
       invalidatesTags: ["Event"],
+      transformResponse: (response: ApiResponse<EventModel>): EventModel => response.data!,
     }),
     editEvent: builder.mutation<EventModel, CreateEventModel>({
       query: (data) => {
@@ -62,6 +64,7 @@ export const eventsApi = BaseApi.injectEndpoints({
         };
       },
       invalidatesTags: ["Event"],
+      transformResponse: (response: ApiResponse<EventModel>): EventModel => response.data!,
     }),
     deleteEvent: builder.mutation<void, string>({
       query: (id) => {

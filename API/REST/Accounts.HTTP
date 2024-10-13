@@ -6,7 +6,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "email": "cs8@cs.cs",
+  "email": "cs11@cs.cs",
   "password": "Password1"
 }
 ###
@@ -23,7 +23,7 @@ Content-Type: application/json
   "password": "Password1"
 }
 ###
-@token = {{postLogin.response.body.token}}
+@token = {{postLogin.response.body.data.token}}
 
 
 # Get profile

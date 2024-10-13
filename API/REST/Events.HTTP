@@ -13,11 +13,11 @@ Content-Type: application/json
   "password": "Password1"
 }
 ###
-@token = {{postLogin.response.body.token}}
+@token = {{postLogin.response.body.data.token}}
 
 
 #Get Event
-GET {{API_HostAddress}}/13fa8fa9-eed0-46a6-87d2-6582f62b2f1b
+GET {{API_HostAddress}}/cd8ac7a3-8ade-4068-9ee6-5a509a1cfc0f
 Accept: application/json
 Content-Type: application/json
 

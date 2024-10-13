@@ -1,4 +1,5 @@
 ﻿using API.Dto;
+using Application.Common;
 using Application.Common.Interfaces;
 using Domain.Interfaces;
 using Infrastructure.Identity;
@@ -13,13 +14,16 @@ public class AccountsController : BaseApiController
     private readonly IIdentityService _identityService;
     private readonly IUser _user;
 
-    public AccountsController(TokenService tokenService, IIdentityService identityService, IUser user)
+    public AccountsController(
+        TokenService tokenService,
+        IIdentityService identityService,
+        IUser user
+    )
     {
         _tokenService = tokenService;
         _identityService = identityService;
         _user = user;
     }
-
 
     [HttpPost("register")]
     public async Task<IActionResult> Create(CreateAccountDto createAccount)
@@ -31,18 +35,17 @@ public class AccountsController : BaseApiController
         if (result.ResultCode == Application.Common.ResultCode.Success)
         {
             var user = result.Value!;
-            return Ok(
-                new AccountDto
-                {
-                    Id = user.Id,
-                    Email = user.Email!,
-                    Token = _tokenService.CreateToken(user),
-                }
-            );
+            var accountDto = new AccountDto
+            {
+                Id = user.Id,
+                Email = user.Email!,
+                Token = _tokenService.CreateToken(user),
+            };
+            return HandleResult(Result<AccountDto>.Success(accountDto));
         }
         else
         {
-            return BadRequest(result.Error);
+            return HandleResult(Result<AccountDto>.Failure(result.Error));
         }
     }
 
@@ -54,18 +57,17 @@ public class AccountsController : BaseApiController
         if (result.ResultCode == Application.Common.ResultCode.Success)
         {
             var user = result.Value!;
-            return Ok(
-                new AccountDto
-                {
-                    Id = user.Id,
-                    Email = user.Email!,
-                    Token = _tokenService.CreateToken(user),
-                }
-            );
+            var accountDto = new AccountDto
+            {
+                Id = user.Id,
+                Email = user.Email!,
+                Token = _tokenService.CreateToken(user),
+            };
+            return HandleResult(Result<AccountDto>.Success(accountDto));
         }
         else
         {
-            return Unauthorized(result.Error);
+            return Unauthorized(ApiResponse<AccountDto>.Failure(result.Error));
         }
     }
 
@@ -77,11 +79,12 @@ public class AccountsController : BaseApiController
         if (result.ResultCode == Application.Common.ResultCode.Success)
         {
             var user = result.Value!;
-            return Ok(new AccountDto { Id = user.Id, Email = user.Email! });
+            var accountDto = new AccountDto { Id = user.Id, Email = user.Email! };
+            return HandleResult(Result<AccountDto>.Success(accountDto));
         }
         else
         {
-            return Unauthorized(result.Error);
+            return Unauthorized(ApiResponse<AccountDto>.Failure(result.Error));
         }
     }
 }

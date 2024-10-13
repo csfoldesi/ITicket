@@ -1,4 +1,5 @@
 using API.Extensions;
+using API.Middleware;
 using Application;
 using Infrastructure;
 using Persistence;
@@ -29,13 +30,14 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
+app.UseMiddleware<ErrorHandlingMiddleware>();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
 app.UseHttpsRedirection();
 app.UseCors("CorsPolicy");
 

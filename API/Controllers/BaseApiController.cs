@@ -1,4 +1,5 @@
-﻿using Application.Common;
+﻿using API.Dto;
+using Application.Common;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,9 +18,9 @@ namespace API.Controllers
         {
             return result.ResultCode switch
             {
-                ResultCode.Success => Ok(result.Value),
+                ResultCode.Success => Ok(ApiResponse<T>.Success(result.Value)),
                 ResultCode.NotFound => NotFound(),
-                ResultCode.Error => BadRequest(result.Error),
+                ResultCode.Error => BadRequest(ApiResponse<T>.Failure(result.Error)),
                 _ => Ok(),
             };
         }

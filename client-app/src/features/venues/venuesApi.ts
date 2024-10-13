@@ -1,4 +1,4 @@
-import { BaseApi, ListResponse, PagedQuery } from "../../app/baseApi";
+import { ApiResponse, BaseApi, ListResponse, PagedQuery } from "../../app/baseApi";
 import { CreateVenueModel, VenueModel } from "../../app/models/venueModels";
 
 export const venuesApi = BaseApi.injectEndpoints({
@@ -11,8 +11,8 @@ export const venuesApi = BaseApi.injectEndpoints({
         };
       },
       providesTags: ["Venue"],
-      transformResponse: (response: ListResponse<VenueModel>) => {
-        return { ...response, hasMorePages: response.currentPage < response.totalPages - 1 };
+      transformResponse: (response: ApiResponse<ListResponse<VenueModel>>): ListResponse<VenueModel> => {
+        return { ...response.data!, hasMorePages: response.data!.currentPage < response.data!.totalPages - 1 };
       },
       serializeQueryArgs: ({ queryArgs }) => {
         return { ...queryArgs, pageNumber: 0 };
@@ -30,6 +30,7 @@ export const venuesApi = BaseApi.injectEndpoints({
     getVenueDetail: builder.query<VenueModel, string>({
       query: (id) => `venues/${id}`,
       providesTags: ["Venue"],
+      transformResponse: (response: ApiResponse<VenueModel>): VenueModel => response.data!,
     }),
     createVenue: builder.mutation<VenueModel, CreateVenueModel>({
       query: (data) => {
@@ -42,6 +43,7 @@ export const venuesApi = BaseApi.injectEndpoints({
           },
         };
       },
+      transformResponse: (response: ApiResponse<VenueModel>): VenueModel => response.data!,
       invalidatesTags: ["Venue"],
     }),
     editVenue: builder.mutation<VenueModel, CreateVenueModel>({
@@ -55,6 +57,7 @@ export const venuesApi = BaseApi.injectEndpoints({
           },
         };
       },
+      transformResponse: (response: ApiResponse<VenueModel>): VenueModel => response.data!,
       invalidatesTags: ["Venue"],
     }),
     deleteVenue: builder.mutation<void, string>({

@@ -23,7 +23,7 @@ public class Result<T>
     public static Result<T> Success(T? value) =>
         new() { ResultCode = ResultCode.Success, Value = value };
 
-    public static Result<T> Failure(string error) =>
+    public static Result<T> Failure(string? error) =>
         new() { ResultCode = ResultCode.Error, Error = error };
 
     public static Result<T> NotFound(string? error = null) =>
