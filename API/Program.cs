@@ -2,6 +2,8 @@ using API.Extensions;
 using API.Middleware;
 using Application;
 using Infrastructure;
+using Infrastructure.Identity;
+using Microsoft.AspNetCore.Identity;
 using Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,9 +20,10 @@ builder.Services.AddApplicationServices();
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
+    var services = scope.ServiceProvider;
     try
     {
-        var dataContext = scope.ServiceProvider.GetRequiredService<DataContext>();
+        var dataContext = services.GetRequiredService<DataContext>();
         await PersistenceHelper.MigrateAsync(dataContext);
     }
     catch (Exception ex)
@@ -28,6 +31,7 @@ using (var scope = app.Services.CreateScope())
         var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
         logger.LogError(ex, "An error occured durign migration");
     }
+    await Seeds.SeedRolesAsync(services.GetRequiredService<RoleManager<IdentityRole>>());
 }
 
 app.UseMiddleware<ErrorHandlingMiddleware>();

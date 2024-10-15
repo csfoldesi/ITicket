@@ -9,7 +9,7 @@ Content-Type: application/json
 
 {
   "email": "cs@cs.cs",
-  "password": "Password11"
+  "password": "Password1"
 }
 ###
 @token = {{postLogin.response.body.data.token}}

@@ -19,6 +19,7 @@ public static class DependencyInjection
             {
                 options.Password.RequireNonAlphanumeric = false;
             })
+            .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<DataContext>()
             .AddSignInManager<SignInManager<User>>();
 
