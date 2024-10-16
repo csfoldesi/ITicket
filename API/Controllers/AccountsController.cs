@@ -39,7 +39,7 @@ public class AccountsController : BaseApiController
             {
                 Id = user.Id,
                 Email = user.Email!,
-                Token = _tokenService.CreateToken(user),
+                Token = await _tokenService.CreateTokenAsync(user),
             };
             return HandleResult(Result<AccountDto>.Success(accountDto));
         }
@@ -61,7 +61,7 @@ public class AccountsController : BaseApiController
             {
                 Id = user.Id,
                 Email = user.Email!,
-                Token = _tokenService.CreateToken(user),
+                Token = await _tokenService.CreateTokenAsync(user),
             };
             return HandleResult(Result<AccountDto>.Success(accountDto));
         }
@@ -79,7 +79,13 @@ public class AccountsController : BaseApiController
         if (result.ResultCode == Application.Common.ResultCode.Success)
         {
             var user = result.Value!;
-            var accountDto = new AccountDto { Id = user.Id, Email = user.Email! };
+            var roles = await _identityService.GetUserRolesAsync(user);
+            var accountDto = new AccountDto
+            {
+                Id = user.Id,
+                Email = user.Email!,
+                Roles = roles,
+            };
             return HandleResult(Result<AccountDto>.Success(accountDto));
         }
         else

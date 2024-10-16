@@ -2,13 +2,21 @@
 using System.Security.Claims;
 using System.Text;
 using Domain;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Infrastructure.Identity;
 
 public class TokenService
 {
-    public string CreateToken(User user)
+    private readonly UserManager<User> _userManager;
+
+    public TokenService(UserManager<User> userManager)
+    {
+        _userManager = userManager;
+    }
+
+    public async Task<string> CreateTokenAsync(User user)
     {
         var claims = new List<Claim>
         {
@@ -16,6 +24,12 @@ public class TokenService
             new(ClaimTypes.NameIdentifier, user.Id),
             new(ClaimTypes.Email, user.Email!),
         };
+
+        var userRoles = await _userManager.GetRolesAsync(user);
+        foreach (var role in userRoles)
+        {
+            claims.Add(new(ClaimTypes.Role, role));
+        }
 
         var key =
             Environment.GetEnvironmentVariable("JWT_KEY")
