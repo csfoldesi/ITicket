@@ -37,3 +37,9 @@ export class Event {
     };
   }
 }
+
+export type EventSearchDto = {
+  title?: string;
+  from?: string;
+  to?: string;
+};

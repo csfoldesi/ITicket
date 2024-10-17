@@ -42,6 +42,12 @@ public class List
             {
                 query = query.Where(x => x.DateTime <= request.QueryParams.DateTo);
             }
+            if (!string.IsNullOrEmpty(request.QueryParams.Title))
+            {
+                query = query.Where(x =>
+                    x.Title.ToLower().Contains(request.QueryParams.Title.ToLower())
+                );
+            }
 
             var result = await query
                 .OrderBy(x => x.DateTime)

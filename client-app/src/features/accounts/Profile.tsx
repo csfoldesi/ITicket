@@ -2,7 +2,7 @@ import { useAppSelector } from "../../app/store/hooks";
 
 const Profile = () => {
   const userInfo = useAppSelector((state) => state.accounts.userInfo);
-
+  console.log(userInfo);
   if (!userInfo) {
     return <></>;
   }

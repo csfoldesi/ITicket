@@ -24,7 +24,7 @@ Content-Type: application/json
 
 
 #Get Venue list
-GET {{API_HostAddress}}?pagenumber=0&pagesize=10
+GET {{API_HostAddress}}?pagenumber=0&pagesize=10&name=magy
 Accept: application/json
 Content-Type: application/json
 

@@ -38,6 +38,10 @@ export class Venue {
   }
 
   static VenueModel_CreateVenueModel(source: VenueModel): CreateVenueModel {
-    return { ...source};
+    return { ...source };
   }
 }
+
+export type VenueSearchDto = {
+  name?: string;
+};

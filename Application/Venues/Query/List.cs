@@ -26,11 +26,18 @@ public class List
             CancellationToken cancellationToken
         )
         {
-            var result = await _dataContext
-                .Venues.Where(x => !x.IsDeleted)
-                .OrderBy(x => x.Name)
-                .ThenBy(x => x.Id)
-                .PaginatedListAsync(request.Params.PageNumber, request.Params.PageSize);
+            var query = _dataContext.Venues.Where(x => !x.IsDeleted);
+            if (!string.IsNullOrEmpty(request.Params.Name))
+            {
+                query = query.Where(x => x.Name.ToLower().Contains(request.Params.Name.ToLower()));
+            }
+
+            query = query.OrderBy(x => x.Name).ThenBy(x => x.Id);
+
+            var result = await query.PaginatedListAsync(
+                request.Params.PageNumber,
+                request.Params.PageSize
+            );
 
             return Result<PagedList<Venue>>.Success(result);
         }

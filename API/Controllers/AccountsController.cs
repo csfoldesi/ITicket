@@ -57,11 +57,13 @@ public class AccountsController : BaseApiController
         if (result.ResultCode == Application.Common.ResultCode.Success)
         {
             var user = result.Value!;
+            var roles = await _identityService.GetUserRolesAsync(user);
             var accountDto = new AccountDto
             {
                 Id = user.Id,
                 Email = user.Email!,
                 Token = await _tokenService.CreateTokenAsync(user),
+                Roles = roles,
             };
             return HandleResult(Result<AccountDto>.Success(accountDto));
         }

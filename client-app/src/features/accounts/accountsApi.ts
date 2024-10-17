@@ -1,4 +1,4 @@
-import { BaseApi } from "../../app/baseApi";
+import { ApiResponse, BaseApi } from "../../app/baseApi";
 import { Account, LoginDto, RegisterDto } from "../../app/models/account";
 
 export const accountsApi = BaseApi.injectEndpoints({
@@ -14,6 +14,7 @@ export const accountsApi = BaseApi.injectEndpoints({
           },
         };
       },
+      transformResponse: (response: ApiResponse<Account>): Account => response.data!,
     }),
     register: builder.mutation<Account, RegisterDto>({
       query: (register) => {
@@ -26,6 +27,7 @@ export const accountsApi = BaseApi.injectEndpoints({
           },
         };
       },
+      transformResponse: (response: ApiResponse<Account>): Account => response.data!,
     }),
     getProfile: builder.query<Account, null>({
       query: () => {
@@ -37,6 +39,7 @@ export const accountsApi = BaseApi.injectEndpoints({
           },
         };
       },
+      transformResponse: (response: ApiResponse<Account>): Account => response.data!,
     }),
   }),
   overrideExisting: false,

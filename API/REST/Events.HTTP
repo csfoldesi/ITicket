@@ -24,7 +24,7 @@ Content-Type: application/json
 ###
 
 #Get Event list
-GET {{API_HostAddress}}
+GET {{API_HostAddress}}?title=szep
 Accept: application/json
 Content-Type: application/json
 

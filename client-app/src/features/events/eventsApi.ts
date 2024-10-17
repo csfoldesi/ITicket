@@ -1,15 +1,15 @@
 import { ApiResponse, BaseApi, ListResponse, PagedQuery } from "../../app/baseApi";
 import { CreateEventModel, EventModel } from "../../app/models/eventModels";
 
-interface EventQueryParams extends PagedQuery {
+export interface EventsQuery extends PagedQuery {
   venue?: string;
-  dateFrom?: Date;
-  dateTo?: Date;
+  dateFrom?: string;
+  dateTo?: string;
 }
 
 export const eventsApi = BaseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getEventsList: builder.query<ListResponse<EventModel>, EventQueryParams>({
+    getEventsList: builder.query<ListResponse<EventModel>, EventsQuery>({
       query: (arg) => {
         return {
           url: "events",

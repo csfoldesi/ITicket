@@ -1,9 +1,13 @@
 import { ApiResponse, BaseApi, ListResponse, PagedQuery } from "../../app/baseApi";
 import { CreateVenueModel, VenueModel } from "../../app/models/venueModels";
 
+export interface VenuesQuery extends PagedQuery {
+  name?: string;
+}
+
 export const venuesApi = BaseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getVenuesList: builder.query<ListResponse<VenueModel>, PagedQuery>({
+    getVenuesList: builder.query<ListResponse<VenueModel>, VenuesQuery>({
       query: (arg) => {
         return {
           url: "venues",

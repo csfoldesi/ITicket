@@ -1,19 +1,22 @@
-import { useCreateVenueMutation, venuesApi } from "./venuesApi";
+import { useCreateVenueMutation, venuesApi, VenuesQuery } from "./venuesApi";
 import VenueListItem from "./VenueListItem";
 import React from "react";
 import AddIcon from "@mui/icons-material/Add";
+import SearchIcon from "@mui/icons-material/Search";
 import EndlessList from "../core/EndlessList";
-import { Venue, VenueModel } from "../../app/models/venueModels";
-import { Button, Dialog, DialogContent, DialogTitle } from "@mui/material";
+import { Venue, VenueModel, VenueSearchDto } from "../../app/models/venueModels";
+import { Button, Dialog, DialogContent, DialogTitle, IconButton, InputBase, Paper } from "@mui/material";
 import CreateEditVenueForm from "./forms/CreateEditVenueForm";
 import { useNavigate } from "react-router-dom";
 import Error from "../core/Error";
+import { SubmitHandler, useForm } from "react-hook-form";
 
 const VenueList = () => {
-  const [page, setPage] = React.useState(0);
-  const { data: venueList, error, isLoading } = venuesApi.useGetVenuesListQuery({ pageNumber: page });
+  const [queryParams, setQueryParams] = React.useState<VenuesQuery>({ pageNumber: 0, name: "" });
+  const { data: venueList, error, isLoading } = venuesApi.useGetVenuesListQuery(queryParams);
   const [createVenue] = useCreateVenueMutation();
   const navigate = useNavigate();
+  const { register, handleSubmit } = useForm<VenueSearchDto>();
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -27,8 +30,17 @@ const VenueList = () => {
     }
   };
 
+  const searchSubmit: SubmitHandler<VenueSearchDto> = (data, event) => {
+    event?.preventDefault();
+    setQueryParams(() => {
+      return { pageNumber: 0, name: data.name };
+    });
+  };
+
   const nextPage = () => {
-    setPage((prev) => prev + 1);
+    setQueryParams((prev) => {
+      return { ...prev, pageNumber: prev.pageNumber! + 1 };
+    });
   };
 
   if (error) {
@@ -39,9 +51,18 @@ const VenueList = () => {
   return (
     <>
       <h1>Venues</h1>
-      <Button variant="contained" onClick={handleOpen} startIcon={<AddIcon />}>
-        New Venue
-      </Button>
+      <Paper
+        component="form"
+        onSubmit={handleSubmit(searchSubmit)}
+        sx={{ p: "2px 4px", display: "flex", alignItems: "center", width: "100%" }}>
+        <InputBase sx={{ ml: 1, flex: 1 }} placeholder="Search Venues" {...register("name")} />
+        <IconButton type="submit" sx={{ p: "10px" }} aria-label="search">
+          <SearchIcon />
+        </IconButton>
+        <Button variant="contained" onClick={handleOpen} startIcon={<AddIcon />}>
+          New Venue
+        </Button>
+      </Paper>
       <EndlessList
         dataList={venueList}
         nextPage={nextPage}
