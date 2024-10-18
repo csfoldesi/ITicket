@@ -4,6 +4,7 @@ import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { logout } from "../../features/accounts/accountsStore";
+import { Roles } from "../models/account";
 
 const NavBar = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -28,15 +29,7 @@ const NavBar = () => {
       <Menu
         id="menu-appbar"
         anchorEl={anchorEl}
-        anchorOrigin={{
-          vertical: "top",
-          horizontal: "right",
-        }}
         keepMounted
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "right",
-        }}
         open={Boolean(anchorEl)}
         onClose={handleClose}
         disableScrollLock>
@@ -55,15 +48,7 @@ const NavBar = () => {
       <Menu
         id="menu-appbar"
         anchorEl={anchorEl}
-        anchorOrigin={{
-          vertical: "top",
-          horizontal: "right",
-        }}
         keepMounted
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "right",
-        }}
         open={Boolean(anchorEl)}
         onClose={handleClose}
         disableScrollLock>
@@ -88,17 +73,22 @@ const NavBar = () => {
           <Button component={RouterLink} color="inherit" to={"/events"}>
             Events
           </Button>
+          {userInfo?.roles.includes(Roles.Admin) && (
+            <Button component={RouterLink} color="inherit" to={"/admin"}>
+              Admin
+            </Button>
+          )}
         </Typography>
         <div>
-          <IconButton
-            size="large"
+          <Button
+            startIcon={<AccountCircle />}
+            color="inherit"
+            onClick={handleMenu}
             aria-label="account of current user"
             aria-controls="menu-appbar"
-            aria-haspopup="true"
-            onClick={handleMenu}
-            color="inherit">
-            <AccountCircle />
-          </IconButton>
+            aria-haspopup="true">
+            {userInfo && userInfo.email}
+          </Button>
           {userInfo ? menuAthorized() : menuUnathorized()}
         </div>
       </Toolbar>

@@ -8,9 +8,9 @@ function App() {
     <>
       <CssBaseline />
       <NavBar />
-      <Container style={{ marginTop: "5em" }}>
+      <div style={{ marginTop: "5em" }}>
         <Outlet />
-      </Container>
+      </div>
     </>
   );
 }

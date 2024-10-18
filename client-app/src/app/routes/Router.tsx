@@ -8,6 +8,7 @@ import EventDetails from "../../features/events/EventDetails";
 import Login from "../../features/accounts/Login";
 import Profile from "../../features/accounts/Profile";
 import Register from "../../features/accounts/Register";
+import Admin from "../../features/admin/Admin";
 
 const routes: RouteObject[] = [
   {
@@ -42,6 +43,16 @@ const routes: RouteObject[] = [
       {
         path: "register",
         element: <Register />,
+      },
+      {
+        path: "admin",
+        element: <Admin />,
+        children: [
+          {
+            path: "venues",
+            element: <VenueList />,
+          },
+        ],
       },
     ],
   },

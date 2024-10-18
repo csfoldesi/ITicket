@@ -2,7 +2,7 @@ export type Account = {
   id: string;
   email: string;
   token: string | null;
-  roles: string[];
+  roles: Roles[];
 };
 
 export type LoginDto = {
@@ -15,3 +15,9 @@ export type RegisterDto = {
   password: string;
   passwordRepeat: string;
 };
+
+export enum Roles {
+  Guest = "Guest",
+  User = "User",
+  Admin = "Admin",
+}
