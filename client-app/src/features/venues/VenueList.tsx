@@ -5,13 +5,17 @@ import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
 import EndlessList from "../core/EndlessList";
 import { Venue, VenueModel, VenueSearchDto } from "../../app/models/venueModels";
-import { Button, Dialog, DialogContent, DialogTitle, IconButton, InputBase, Paper } from "@mui/material";
+import { Button, Container, Dialog, DialogContent, DialogTitle, IconButton, InputBase, Paper } from "@mui/material";
 import CreateEditVenueForm from "./forms/CreateEditVenueForm";
 import { useNavigate } from "react-router-dom";
 import Error from "../core/Error";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-const VenueList = () => {
+interface Props {
+  adminMode?: boolean;
+}
+
+const VenueList = ({ adminMode }: Props) => {
   const [queryParams, setQueryParams] = React.useState<VenuesQuery>({ pageNumber: 0, name: "" });
   const { data: venueList, error, isLoading } = venuesApi.useGetVenuesListQuery(queryParams);
   const [createVenue] = useCreateVenueMutation();
@@ -49,7 +53,7 @@ const VenueList = () => {
   if (isLoading) return <p>Loading...</p>;
 
   return (
-    <>
+    <Container>
       <h1>Venues</h1>
       <Paper
         component="form"
@@ -59,9 +63,11 @@ const VenueList = () => {
         <IconButton type="submit" sx={{ p: "10px" }} aria-label="search">
           <SearchIcon />
         </IconButton>
-        <Button variant="contained" onClick={handleOpen} startIcon={<AddIcon />}>
-          New Venue
-        </Button>
+        {adminMode && (
+          <Button variant="contained" onClick={handleOpen} startIcon={<AddIcon />}>
+            New Venue
+          </Button>
+        )}
       </Paper>
       <EndlessList
         dataList={venueList}
@@ -75,7 +81,7 @@ const VenueList = () => {
           <CreateEditVenueForm onSubmit={onSubmit} onCancel={handleClose} venue={Venue.VenueModel()} />
         </DialogContent>
       </Dialog>
-    </>
+    </Container>
   );
 };
 

@@ -8,7 +8,11 @@ import { EventSearchDto } from "../../app/models/eventModels";
 import { SubmitHandler, useForm } from "react-hook-form";
 import SearchIcon from "@mui/icons-material/Search";
 
-const EventList = () => {
+interface Props {
+  adminMode?: boolean;
+}
+
+const EventList = ({ adminMode }: Props) => {
   const [queryParams, setQueryParams] = React.useState<EventsQuery>({ pageNumber: 0 });
   const { data: eventList, error, isLoading } = eventsApi.useGetEventsListQuery(queryParams);
   const { register, handleSubmit } = useForm<EventSearchDto>();

@@ -11,7 +11,7 @@ const EventListItem = ({ event }: Props) => {
     <Card sx={{ minWidth: 275, margin: "1em" }} variant="outlined">
       <CardContent>
         <Typography gutterBottom variant="h6" component="div" color="textPrimary">
-          <Link to={`/events/${event.id}`}>{event.title}</Link>
+          <Link to={`${event.id}`}>{event.title}</Link>
         </Typography>
         <Typography variant="subtitle1" color="textSecondary">
           {event.venue.name} - {event.dateTime.toString()}

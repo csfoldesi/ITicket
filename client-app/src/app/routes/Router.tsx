@@ -25,6 +25,10 @@ const routes: RouteObject[] = [
         element: <VenueDetails />,
       },
       {
+        path: "venues/:venueId/:id",
+        element: <EventDetails />,
+      },
+      {
         path: "events",
         element: <EventList />,
       },
@@ -50,7 +54,23 @@ const routes: RouteObject[] = [
         children: [
           {
             path: "venues",
-            element: <VenueList />,
+            element: <VenueList adminMode={true} />,
+          },
+          {
+            path: "venues/:id",
+            element: <VenueDetails adminMode={true} />,
+          },
+          {
+            path: "venues/:venueId/:id",
+            element: <EventDetails adminMode={true} />,
+          },
+          {
+            path: "events",
+            element: <EventList adminMode={true} />,
+          },
+          {
+            path: "events/:id",
+            element: <EventDetails adminMode={true} />,
           },
         ],
       },

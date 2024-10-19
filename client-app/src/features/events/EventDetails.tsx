@@ -1,13 +1,17 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useDeleteEventMutation, useEditEventMutation, useGetEventDetailQuery } from "./eventsApi";
-import { Button, Dialog, DialogContent, DialogTitle } from "@mui/material";
+import { Button, Container, Dialog, DialogContent, DialogTitle } from "@mui/material";
 import React from "react";
 import CreateEditEventForm from "./forms/CreateEditEventForm";
 import { Event, EventModel } from "../../app/models/eventModels";
 import AlertDialog from "../core/AlertDialog";
 import Error from "../core/Error";
 
-const EventDetails = () => {
+interface Props {
+  adminMode?: boolean;
+}
+
+const EventDetails = ({ adminMode }: Props) => {
   let { id } = useParams<{ id: string }>();
   const { data: event, error, isLoading } = useGetEventDetailQuery(id ?? "");
   const [editEvent] = useEditEventMutation();
@@ -39,34 +43,38 @@ const EventDetails = () => {
   if (!event) return <></>;
 
   return (
-    <>
+    <Container>
       <h1>{event?.title}</h1>
       <p>{event?.description}</p>
       <p>
         {event?.venue.name} - {event?.dateTime.toString()}
       </p>
-      <Button variant="contained" onClick={handleOpen} sx={{ marginRight: "1em" }}>
-        Edit
-      </Button>
-      <Button variant="contained" color="error" onClick={() => setAlertOpen(true)}>
-        Delete
-      </Button>
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Edit event</DialogTitle>
-        <DialogContent>
-          <CreateEditEventForm onSubmit={onSubmit} onCancel={handleClose} event={event} />
-        </DialogContent>
-      </Dialog>
-      <AlertDialog
-        title="Delete event"
-        description="Do you really want to delete this event?"
-        open={alertOpen}
-        onCancel={() => {
-          setAlertOpen(false);
-        }}
-        onSubmit={handleAlertSubmit}
-      />
-    </>
+      {adminMode && (
+        <>
+          <Button variant="contained" onClick={handleOpen} sx={{ marginRight: "1em" }}>
+            Edit
+          </Button>
+          <Button variant="contained" color="error" onClick={() => setAlertOpen(true)}>
+            Delete
+          </Button>
+          <Dialog open={open} onClose={handleClose}>
+            <DialogTitle>Edit event</DialogTitle>
+            <DialogContent>
+              <CreateEditEventForm onSubmit={onSubmit} onCancel={handleClose} event={event} />
+            </DialogContent>
+          </Dialog>
+          <AlertDialog
+            title="Delete event"
+            description="Do you really want to delete this event?"
+            open={alertOpen}
+            onCancel={() => {
+              setAlertOpen(false);
+            }}
+            onSubmit={handleAlertSubmit}
+          />
+        </>
+      )}
+    </Container>
   );
 };
 

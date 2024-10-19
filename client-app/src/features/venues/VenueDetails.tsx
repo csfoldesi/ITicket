@@ -2,7 +2,7 @@ import React from "react";
 import AddIcon from "@mui/icons-material/Add";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDeleteVenueMutation, useEditVenueMutation, useGetVenueDetailQuery } from "./venuesApi";
-import { Box, Button, Dialog, DialogContent, DialogTitle } from "@mui/material";
+import { Box, Button, Container, Dialog, DialogContent, DialogTitle } from "@mui/material";
 import { useCreateEventMutation } from "../events/eventsApi";
 import { Event, EventModel } from "../../app/models/eventModels";
 import VenueEventList from "../events/VenueEventList";
@@ -12,7 +12,11 @@ import { Venue, VenueModel } from "../../app/models/venueModels";
 import AlertDialog from "../core/AlertDialog";
 import Error from "../core/Error";
 
-const VenueDetails = () => {
+interface Props {
+  adminMode?: boolean;
+}
+
+const VenueDetails = ({ adminMode }: Props) => {
   let { id: venueId } = useParams<{ id: string }>();
   const { data: venue, error, isLoading } = useGetVenueDetailQuery(venueId ?? "");
   const [createEvent] = useCreateEventMutation();
@@ -54,50 +58,54 @@ const VenueDetails = () => {
   if (!venue) return <></>;
 
   return (
-    <>
+    <Container>
       <h1>{venue?.name}</h1>
       <p>{venue?.description}</p>
       <p>
         {venue?.address.zipCode}, {venue?.address.city}, {venue?.address.street}
       </p>
-      <Box component={"div"}>
-        <Button variant="contained" onClick={handleVenueOpen} sx={{ marginRight: "1em" }}>
-          Edit Venue
-        </Button>
-        <Button variant="contained" color="error" onClick={() => setAlertOpen(true)} sx={{ marginRight: "1em" }}>
-          Delete Venue
-        </Button>
-        <Button variant="contained" onClick={handleEventOpen} startIcon={<AddIcon />}>
-          New Event
-        </Button>
-      </Box>
-      <Dialog open={eventOpen} onClose={handleEventClose}>
-        <DialogTitle>Create new event</DialogTitle>
-        <DialogContent>
-          <CreateEditEventForm
-            onSubmit={onEventSubmit}
-            onCancel={handleEventClose}
-            event={{ ...Event.EventModel(), venue: venue }}
+      {adminMode && (
+        <>
+          <Box component={"div"}>
+            <Button variant="contained" onClick={handleVenueOpen} sx={{ marginRight: "1em" }}>
+              Edit Venue
+            </Button>
+            <Button variant="contained" color="error" onClick={() => setAlertOpen(true)} sx={{ marginRight: "1em" }}>
+              Delete Venue
+            </Button>
+            <Button variant="contained" onClick={handleEventOpen} startIcon={<AddIcon />}>
+              New Event
+            </Button>
+          </Box>
+          <Dialog open={eventOpen} onClose={handleEventClose}>
+            <DialogTitle>Create new event</DialogTitle>
+            <DialogContent>
+              <CreateEditEventForm
+                onSubmit={onEventSubmit}
+                onCancel={handleEventClose}
+                event={{ ...Event.EventModel(), venue: venue }}
+              />
+            </DialogContent>
+          </Dialog>
+          <Dialog open={venueOpen} onClose={handleVenueClose}>
+            <DialogTitle>Edit Venue</DialogTitle>
+            <DialogContent>
+              <CreateEditVenueForm onSubmit={onVenueSubmit} onCancel={handleVenueClose} venue={venue} />
+            </DialogContent>
+          </Dialog>
+          <AlertDialog
+            title="Delete venue"
+            description="Do you really want to delete this venua and all of its events?"
+            open={alertOpen}
+            onCancel={() => {
+              setAlertOpen(false);
+            }}
+            onSubmit={handleAlertSubmit}
           />
-        </DialogContent>
-      </Dialog>
-      <Dialog open={venueOpen} onClose={handleVenueClose}>
-        <DialogTitle>Edit Venue</DialogTitle>
-        <DialogContent>
-          <CreateEditVenueForm onSubmit={onVenueSubmit} onCancel={handleVenueClose} venue={venue} />
-        </DialogContent>
-      </Dialog>
-      <AlertDialog
-        title="Delete venue"
-        description="Do you really want to delete this venua and all of its events?"
-        open={alertOpen}
-        onCancel={() => {
-          setAlertOpen(false);
-        }}
-        onSubmit={handleAlertSubmit}
-      />
+        </>
+      )}
       {venueId && <VenueEventList venueId={venueId!} />}
-    </>
+    </Container>
   );
 };
 

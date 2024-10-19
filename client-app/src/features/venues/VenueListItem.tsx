@@ -11,7 +11,7 @@ const VenueListItem = ({ venue }: Props) => {
     <Card sx={{ minWidth: 275 }}>
       <CardContent>
         <Typography gutterBottom variant="h6" component="div" color="textPrimary">
-          <Link to={`/venues/${venue.id}`}>{venue.name}</Link>
+          <Link to={`${venue.id}`}>{venue.name}</Link>
         </Typography>
         <Typography variant="subtitle1" color="textSecondary">
           {venue.description}
