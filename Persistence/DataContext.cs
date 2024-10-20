@@ -12,6 +12,10 @@ public class DataContext : IdentityDbContext<User>
 
     public DbSet<Event> Events { get; set; }
 
+    public DbSet<Ticket> Tickets { get; set; }
+
+    public DbSet<TicketStatus> TicketStatus { get; set; }
+
     //public DataContext() { }
 
     public DataContext(DbContextOptions options)
@@ -22,5 +26,6 @@ public class DataContext : IdentityDbContext<User>
         base.OnModelCreating(builder);
 
         builder.Entity<Venue>().OwnsOne(x => x.Address);
+        builder.Entity<Event>().HasMany(e => e.Tickets).WithOne(t => t.Event);
     }
 }

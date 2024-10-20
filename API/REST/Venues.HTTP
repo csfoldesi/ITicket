@@ -16,7 +16,7 @@ Content-Type: application/json
 
 
 #Get Venue
-GET {{API_HostAddress}}/4E5FA185-73DE-449A-BB58-4C9A51D0AD45
+GET {{API_HostAddress}}/092BF2CE-2870-4DA3-A898-8F5BEE976E8C
 Accept: application/json
 Content-Type: application/json
 
@@ -32,14 +32,14 @@ Content-Type: application/json
 
 
 #Edit Venue
-PUT {{API_HostAddress}}/A11B1817-4AEA-4032-8995-86BB2FD13D62
+PUT {{API_HostAddress}}/092BF2CE-2870-4DA3-A898-8F5BEE976E8C
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "name": "Mátyás-templom edited",
-  "description": "Mátyás-templom edited",
+  "name": "Magyar Állami Operaház",
+  "description": "Magyar Állami Operahá",
   "address": {
     "country": "Magyarország",
     "zipCode": "1024",
@@ -70,7 +70,7 @@ Authorization: Bearer {{token}}
 
 
 # Delete Venue
-DELETE {{API_HostAddress}}/4E5FA185-73DE-449A-BB58-4C9A51D0AD45
+DELETE {{API_HostAddress}}/092BF2CE-2870-4DA3-A898-8F5BEE976E8C
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}

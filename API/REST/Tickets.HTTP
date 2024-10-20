@@ -1,0 +1,30 @@
+@API_HostAddress = http://localhost:5000/api/tickets
+@API_HostAddressLogin = http://localhost:5000/api/accounts
+
+
+# Login
+# @name postLogin
+POST {{API_HostAddressLogin}}
+Accept: application/json
+Content-Type: application/json
+
+{
+  "email": "admin@admin.hu",
+  "password": "Password1"
+}
+###
+@token = {{postLogin.response.body.data.token}}
+
+
+# Create Ticket
+POST {{API_HostAddress}}
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "eventId": "F48CB999-121C-429C-82FA-72BBAEFBC516",
+    "price": 6000,
+    "quantity": 3,
+    "status" : "AVAILABLE"
+}

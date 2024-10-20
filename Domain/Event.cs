@@ -11,4 +11,6 @@ public class Event : BaseAuditableEntity
     public DateTime DateTime { get; set; }
 
     public required Venue Venue { get; set; }
+
+    public List<Ticket> Tickets { get; set; } = [];
 }
