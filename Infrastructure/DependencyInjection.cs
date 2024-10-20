@@ -2,7 +2,9 @@
 using Application.Common.Interfaces;
 using Domain;
 using Infrastructure.Identity;
+using Infrastructure.Security;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -41,9 +43,21 @@ public static class DependencyInjection
                 };
             });
 
-        services.AddAuthorization();
+        services.AddAuthorization(options =>
+        {
+            options.AddPolicy(
+                "IsVenueOwner",
+                policy => policy.Requirements.Add(new IsVenueOwnerRequirement())
+            );
+            options.AddPolicy(
+                "IsEventOwner",
+                policy => policy.Requirements.Add(new IsEventOwnerRequirement())
+            );
+        });
         services.AddScoped<TokenService>();
         services.AddTransient<IIdentityService, IdentityService>();
+        services.AddScoped<IAuthorizationHandler, IsVenueOwnerHandler>();
+        services.AddScoped<IAuthorizationHandler, IsEventOwnerHandler>();
 
         return services;
     }

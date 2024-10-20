@@ -30,7 +30,7 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
-        [Authorize]
+        [Authorize(Policy = "IsVenueOwner")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteVenue(Guid id)
         {
@@ -38,7 +38,7 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
-        [Authorize]
+        [Authorize(Policy = "IsVenueOwner")]
         [HttpPut("{id}")]
         public async Task<IActionResult> EditVenue(Guid id, CreateEditDto venueDto)
         {
