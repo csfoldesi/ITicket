@@ -13,14 +13,14 @@ Content-Type: application/json
   "password": "Password1"
 }
 ###
-@token = {{postLogin.response.body.data.token}}
+@accessToken = {{postLogin.response.body.data.accessToken}}
 
 
 # Create Ticket
 POST {{API_HostAddress}}
 Accept: application/json
 Content-Type: application/json
-Authorization: Bearer {{token}}
+Authorization: Bearer {{accessToken}}
 
 {
     "eventId": "F48CB999-121C-429C-82FA-72BBAEFBC516",

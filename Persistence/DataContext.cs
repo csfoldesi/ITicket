@@ -16,6 +16,8 @@ public class DataContext : IdentityDbContext<User>
 
     public DbSet<TicketStatus> TicketStatus { get; set; }
 
+    public DbSet<RefreshToken> RefreshTokens { get; set; }
+
     //public DataContext() { }
 
     public DataContext(DbContextOptions options)

@@ -12,8 +12,7 @@ Content-Type: application/json
   "password": "Password1"
 }
 ###
-@token = {{postLogin.response.body.data.token}}
-
+@accessToken = {{postLogin.response.body.data.accessToken}}
 
 #Get Venue
 GET {{API_HostAddress}}/092BF2CE-2870-4DA3-A898-8F5BEE976E8C
@@ -35,7 +34,7 @@ Content-Type: application/json
 PUT {{API_HostAddress}}/092BF2CE-2870-4DA3-A898-8F5BEE976E8C
 Accept: application/json
 Content-Type: application/json
-Authorization: Bearer {{token}}
+Authorization: Bearer {{accessToken}}
 
 {
   "name": "Magyar Állami Operaház",
@@ -54,7 +53,7 @@ Authorization: Bearer {{token}}
 POST {{API_HostAddress}}
 Accept: application/json
 Content-Type: application/json
-Authorization: Bearer {{token}}
+Authorization: Bearer {{accessToken}}
 
 {
   "name": "Magyar Állami Operaház 4",
@@ -73,6 +72,6 @@ Authorization: Bearer {{token}}
 DELETE {{API_HostAddress}}/092BF2CE-2870-4DA3-A898-8F5BEE976E8C
 Accept: application/json
 Content-Type: application/json
-Authorization: Bearer {{token}}
+Authorization: Bearer {{accessToken}}
 
 ###

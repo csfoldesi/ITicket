@@ -1,5 +1,6 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using Domain;
 using Microsoft.AspNetCore.Identity;
@@ -10,13 +11,14 @@ namespace Infrastructure.Identity;
 public class TokenService
 {
     private readonly UserManager<User> _userManager;
+    private readonly DataConntext
 
     public TokenService(UserManager<User> userManager)
     {
         _userManager = userManager;
     }
 
-    public async Task<string> CreateTokenAsync(User user)
+    public async Task<string> CreateAccessTokenAsync(User user)
     {
         var claims = new List<Claim>
         {
@@ -49,5 +51,13 @@ public class TokenService
         var token = tokenHandler.CreateToken(tokenDescriptor);
 
         return tokenHandler.WriteToken(token);
+    }
+
+    public string CreateRefreshToken()
+    {
+        var randomNumber = new byte[32];
+        using var rng = RandomNumberGenerator.Create();
+        rng.GetBytes(randomNumber);
+        return Convert.ToBase64String(randomNumber);
     }
 }

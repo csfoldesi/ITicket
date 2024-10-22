@@ -6,7 +6,9 @@ public class AccountDto
 
     public required string Email { get; set; }
 
-    public string? Token { get; set; }
+    public required string AccessToken { get; set; }
+
+    public required string RefreshToken { get; set; }
 
     public List<string> Roles { get; set; } = [];
 }

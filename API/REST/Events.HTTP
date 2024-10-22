@@ -13,7 +13,7 @@ Content-Type: application/json
   "password": "Password1"
 }
 ###
-@token = {{postLogin.response.body.data.token}}
+@accessToken = {{postLogin.response.body.data.accessToken}}
 
 
 #Get Event
@@ -42,7 +42,7 @@ Content-Type: application/json
 POST {{API_HostAddress}}
 Accept: application/json
 Content-Type: application/json
-Authorization: Bearer {{token}}
+Authorization: Bearer {{accessToken}}
 
 {
   "title": "Create test",
@@ -57,7 +57,7 @@ Authorization: Bearer {{token}}
 PUT {{API_HostAddress}}/EEC89508-DED8-4BE5-85D4-2E4A435ADB16
 Accept: application/json
 Content-Type: application/json
-Authorization: Bearer {{token}}
+Authorization: Bearer {{accessToken}}
 
 {
   "title": "Create test edited",
@@ -72,6 +72,6 @@ Authorization: Bearer {{token}}
 DELETE {{API_HostAddress}}/13fa8fa9-eed0-46a6-87d2-6582f62b2f1b
 Accept: application/json
 Content-Type: application/json
-Authorization: Bearer {{token}}
+Authorization: Bearer {{accessToken}}
 
 ###

@@ -35,11 +35,16 @@ public class AccountsController : BaseApiController
         if (result.ResultCode == Application.Common.ResultCode.Success)
         {
             var user = result.Value!;
+            var roles = await _identityService.GetUserRolesAsync(user);
+            var token = _tokenService.CreateRefreshToken();
+            await _identityService.StoreAccessTokenAsync(token);
             var accountDto = new AccountDto
             {
                 Id = user.Id,
                 Email = user.Email!,
-                Token = await _tokenService.CreateTokenAsync(user),
+                AccessToken = await _tokenService.CreateAccessTokenAsync(user),
+                RefreshToken = token,
+                Roles = roles,
             };
             return HandleResult(Result<AccountDto>.Success(accountDto));
         }
@@ -58,11 +63,14 @@ public class AccountsController : BaseApiController
         {
             var user = result.Value!;
             var roles = await _identityService.GetUserRolesAsync(user);
+            var token = _tokenService.CreateRefreshToken();
+            await _identityService.StoreAccessTokenAsync(token);
             var accountDto = new AccountDto
             {
                 Id = user.Id,
                 Email = user.Email!,
-                Token = await _tokenService.CreateTokenAsync(user),
+                AccessToken = await _tokenService.CreateAccessTokenAsync(user),
+                RefreshToken = token,
                 Roles = roles,
             };
             return HandleResult(Result<AccountDto>.Success(accountDto));
@@ -87,6 +95,8 @@ public class AccountsController : BaseApiController
                 Id = user.Id,
                 Email = user.Email!,
                 Roles = roles,
+                AccessToken = string.Empty,
+                RefreshToken = string.Empty,
             };
             return HandleResult(Result<AccountDto>.Success(accountDto));
         }
@@ -95,4 +105,28 @@ public class AccountsController : BaseApiController
             return Unauthorized(ApiResponse<AccountDto>.Failure(result.Error));
         }
     }
+
+    /*[HttpPost("token/{token}")]
+    public async Task<IActionResult> RefreshToken(string token)
+    {
+        var result = await _identityService.GetUserByTokeneAsync(token);
+        if (result.ResultCode == Application.Common.ResultCode.Success)
+        {
+            var user = result.Value!;
+            var roles = await _identityService.GetUserRolesAsync(user);
+            var accountDto = new AccountDto
+            {
+                Id = user.Id,
+                Email = user.Email!,
+                Roles = roles,
+                AccessToken = string.Empty,
+                RefreshToken = string.Empty,
+            };
+            return HandleResult(Result<AccountDto>.Success(accountDto));
+        }
+        else
+        {
+            return Unauthorized(ApiResponse<AccountDto>.Failure(result.Error));
+        }
+    }*/
 }

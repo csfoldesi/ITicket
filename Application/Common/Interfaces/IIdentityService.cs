@@ -10,5 +10,9 @@ public interface IIdentityService
 
     Task<Result<User>> GetUserProfileAsync(string? userId);
 
+    Task<Result<string>> StoreAccessTokenAsync(string token);
+
+    Task<Result<User>> GetUserByTokeneAsync(string token);
+
     Task<List<string>> GetUserRolesAsync(User user);
 }
