@@ -1,7 +1,6 @@
 ﻿using Application.Common;
-using Domain;
+using Application.Common.Interfaces;
 using MediatR;
-using Persistence;
 
 namespace Application.Events;
 
@@ -14,9 +13,9 @@ public class Delete
 
     public class Handler : IRequestHandler<Command, Result<Unit>>
     {
-        private readonly DataContext _dataContext;
+        private readonly IDataContext _dataContext;
 
-        public Handler(DataContext dataContext)
+        public Handler(IDataContext dataContext)
         {
             _dataContext = dataContext;
         }

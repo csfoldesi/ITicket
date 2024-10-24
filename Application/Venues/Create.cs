@@ -1,8 +1,8 @@
 ﻿using Application.Common;
+using Application.Common.Interfaces;
 using AutoMapper;
 using Domain;
 using MediatR;
-using Persistence;
 
 namespace Application.Venues;
 
@@ -15,10 +15,10 @@ public class Create
 
     public class Handler : IRequestHandler<Command, Result<Venue>>
     {
-        private readonly DataContext _dataContext;
+        private readonly IDataContext _dataContext;
         private readonly IMapper _mapper;
 
-        public Handler(DataContext dataContext, IMapper mapper)
+        public Handler(IDataContext dataContext, IMapper mapper)
         {
             _dataContext = dataContext;
             _mapper = mapper;

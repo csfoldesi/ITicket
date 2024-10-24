@@ -51,6 +51,11 @@ public class IdentityService : IIdentityService
             : Result<User>.Failure("Unauthorized access");
     }
 
+    public Task<Result<User>> GetUserByTokeneAsync(string token)
+    {
+        throw new NotImplementedException();
+    }
+
     public async Task<Result<User>> GetUserProfileAsync(string? userId)
     {
         var user = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == userId);
@@ -64,5 +69,10 @@ public class IdentityService : IIdentityService
     public async Task<List<string>> GetUserRolesAsync(User user)
     {
         return (List<string>)await _userManager.GetRolesAsync(user);
+    }
+
+    public Task<Result<string>> StoreAccessTokenAsync(string token)
+    {
+        throw new NotImplementedException();
     }
 }

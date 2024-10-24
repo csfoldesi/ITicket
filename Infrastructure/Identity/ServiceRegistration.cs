@@ -1,18 +1,17 @@
 ﻿using System.Text;
 using Application.Common.Interfaces;
 using Domain;
-using Infrastructure.Identity;
-using Infrastructure.Security;
+using Infrastructure.Identity.Security;
+using Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using Persistence;
 
-namespace Infrastructure;
+namespace Infrastructure.Identity;
 
-public static class DependencyInjection
+public static class ServiceRegistration
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
     {

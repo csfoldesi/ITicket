@@ -24,7 +24,7 @@ Content-Type: application/json
 ###
 
 #Get Event list
-GET {{API_HostAddress}}?title=alk
+GET {{API_HostAddress}}?title=a
 Accept: application/json
 Content-Type: application/json
 

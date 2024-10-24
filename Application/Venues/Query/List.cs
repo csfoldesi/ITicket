@@ -1,7 +1,7 @@
 ﻿using Application.Common;
+using Application.Common.Interfaces;
 using Domain;
 using MediatR;
-using Persistence;
 
 namespace Application.Venues.Query;
 
@@ -14,9 +14,9 @@ public class List
 
     public class Handler : IRequestHandler<Query, Result<PagedList<Venue>>>
     {
-        private readonly DataContext _dataContext;
+        private readonly IDataContext _dataContext;
 
-        public Handler(DataContext dataContext)
+        public Handler(IDataContext dataContext)
         {
             _dataContext = dataContext;
         }

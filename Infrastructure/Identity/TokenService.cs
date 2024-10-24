@@ -11,7 +11,6 @@ namespace Infrastructure.Identity;
 public class TokenService
 {
     private readonly UserManager<User> _userManager;
-    private readonly DataConntext
 
     public TokenService(UserManager<User> userManager)
     {

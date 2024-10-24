@@ -1,9 +1,9 @@
 ﻿using System.Security.Claims;
+using Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Persistence;
 
-namespace Infrastructure.Security;
+namespace Infrastructure.Identity.Security;
 
 public class IsVenueOwnerRequirement : IAuthorizationRequirement { }
 

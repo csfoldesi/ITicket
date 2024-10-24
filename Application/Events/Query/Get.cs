@@ -1,8 +1,8 @@
 ﻿using Application.Common;
+using Application.Common.Interfaces;
 using Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Persistence;
 
 namespace Application.Events.Query;
 
@@ -15,9 +15,9 @@ public class Get
 
     public class Handler : IRequestHandler<Query, Result<Event>>
     {
-        private readonly DataContext _dataContext;
+        private readonly IDataContext _dataContext;
 
-        public Handler(DataContext dataContext)
+        public Handler(IDataContext dataContext)
         {
             _dataContext = dataContext;
         }
