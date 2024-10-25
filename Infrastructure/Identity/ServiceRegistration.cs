@@ -53,7 +53,7 @@ public static class ServiceRegistration
                 policy => policy.Requirements.Add(new IsEventOwnerRequirement())
             );
         });
-        services.AddScoped<TokenService>();
+        services.AddScoped<ITokenService, TokenService>();
         services.AddTransient<IIdentityService, IdentityService>();
         services.AddScoped<IAuthorizationHandler, IsVenueOwnerHandler>();
         services.AddScoped<IAuthorizationHandler, IsEventOwnerHandler>();

@@ -2,19 +2,24 @@
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using Application.Common.Interfaces;
 using Domain;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Infrastructure.Identity;
 
-public class TokenService
+public class TokenService : ITokenService
 {
     private readonly UserManager<User> _userManager;
+    private readonly IDataContext _dataContext;
 
-    public TokenService(UserManager<User> userManager)
+    public TokenService(UserManager<User> userManager, IDataContext dataContext)
     {
         _userManager = userManager;
+        _dataContext = dataContext;
     }
 
     public async Task<string> CreateAccessTokenAsync(User user)
@@ -41,7 +46,7 @@ public class TokenService
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(claims),
-            Expires = DateTime.Now.AddDays(7),
+            Expires = DateTime.Now.AddMinutes(30),
             SigningCredentials = creds,
         };
 
@@ -52,11 +57,78 @@ public class TokenService
         return tokenHandler.WriteToken(token);
     }
 
-    public string CreateRefreshToken()
+    public async Task<string> CreateRefreshTokenAsync(
+        User user,
+        CancellationToken cancellationToken = default
+    )
     {
+        var existingToken = await _dataContext.RefreshTokens.FirstOrDefaultAsync(
+            x => x.UserId == user.Id,
+            cancellationToken: cancellationToken
+        );
+        if (existingToken != null)
+        {
+            existingToken.IsRevoked = true;
+        }
+
         var randomNumber = new byte[32];
         using var rng = RandomNumberGenerator.Create();
         rng.GetBytes(randomNumber);
-        return Convert.ToBase64String(randomNumber);
+        var tokenString = WebEncoders.Base64UrlEncode(randomNumber);
+        var token = new RefreshToken
+        {
+            Token = tokenString,
+            UserId = user.Id,
+            ExpiryDate = DateTime.Now.AddDays(7),
+        };
+        _dataContext.RefreshTokens.Add(token);
+
+        await _dataContext.SaveChangesAsync(cancellationToken);
+
+        return tokenString;
+    }
+
+    public async Task ExtendRefreshTokenAsync(
+        string token,
+        CancellationToken cancellationToken = default
+    )
+    {
+        var refreshToken = await _dataContext.RefreshTokens.FirstOrDefaultAsync(
+            x => x.Token == token,
+            cancellationToken: cancellationToken
+        );
+        if (refreshToken != null)
+        {
+            refreshToken.ExpiryDate = DateTime.Now.AddDays(7);
+            await _dataContext.SaveChangesAsync(cancellationToken);
+        }
+    }
+
+    public async Task<string?> GetUserIdByTokenAsync(
+        string token,
+        CancellationToken cancellationToken = default
+    )
+    {
+        var refreshToken = await _dataContext.RefreshTokens.FirstOrDefaultAsync(
+            x => x.Token == token && !x.IsRevoked && x.ExpiryDate >= DateTime.Now,
+            cancellationToken: cancellationToken
+        );
+
+        return refreshToken?.UserId;
+    }
+
+    public async Task RevokeRefreshTokenAsync(
+        string userId,
+        CancellationToken cancellationToken = default
+    )
+    {
+        var refreshTokens = await _dataContext
+            .RefreshTokens.Where(x => x.UserId == userId)
+            .ToListAsync(cancellationToken: cancellationToken);
+        foreach (var refreshToken in refreshTokens)
+        {
+            refreshToken.IsRevoked = true;
+        }
+        await _dataContext.SaveChangesAsync(cancellationToken);
     }
 }

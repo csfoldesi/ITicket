@@ -26,11 +26,26 @@ Content-Type: application/json
 @accessToken = {{postLogin.response.body.data.accessToken}}
 
 
+#Logout
+POST {{API_HostAddress}}/logout
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+###
+
 # Get profile
 GET {{API_HostAddress}}
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{accessToken}}
 
+
+###
+
+# Refresh token
+POST {{API_HostAddress}}/token/CIMh-p1cj0BvOnbZjHTRGM8bI3LMiNyjhbN_h44ORag
+Accept: application/json
+Content-Type: application/json
 
 ###
