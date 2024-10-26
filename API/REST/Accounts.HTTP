@@ -19,7 +19,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "email": "cs@cs.cs",
+  "email": "admin@admin.hu",
   "password": "Password1"
 }
 ###
@@ -44,7 +44,7 @@ Authorization: Bearer {{accessToken}}
 ###
 
 # Refresh token
-POST {{API_HostAddress}}/token/CIMh-p1cj0BvOnbZjHTRGM8bI3LMiNyjhbN_h44ORag
+POST {{API_HostAddress}}/token/XpPjorvXO1857u7KQBQ4pYqI6Pj1U1fDHi4Py2UkXWM
 Accept: application/json
 Content-Type: application/json
 

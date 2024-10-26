@@ -1,6 +1,6 @@
+import { refreshTokenApi } from "../../app/baseApi";
 import { Account } from "../../app/models/account";
 import { createAppSlice } from "../../app/store/createAppSlice";
-//import { RootState } from "../../app/store/store";
 import { accountsApi } from "./accountsApi";
 
 export interface AccountsState {
@@ -23,11 +23,15 @@ export const accountsStore = createAppSlice({
   extraReducers: (builder) => {
     builder.addMatcher(accountsApi.endpoints.login.matchFulfilled, (state, { payload }) => {
       state.userInfo = payload;
-      localStorage.setItem("account", JSON.stringify(payload));
+      saveUserInfoToLocalStorage(payload);
     });
     builder.addMatcher(accountsApi.endpoints.register.matchFulfilled, (state, { payload }) => {
       state.userInfo = payload;
-      localStorage.setItem("account", JSON.stringify(payload));
+      saveUserInfoToLocalStorage(payload);
+    });
+    builder.addMatcher(refreshTokenApi.endpoints.refresh.matchFulfilled, (state, { payload }) => {
+      state.userInfo = payload.data!;
+      saveUserInfoToLocalStorage(payload.data!);
     });
   },
   selectors: {
@@ -35,9 +39,16 @@ export const accountsStore = createAppSlice({
   },
 });
 
+const saveUserInfoToLocalStorage = (account: Account) => {
+  const userinfoToStorage = {
+    id: account.id,
+    email: account.email,
+    refreshToken: account.refreshToken,
+    roles: account.roles,
+  };
+  localStorage.setItem("account", JSON.stringify(userinfoToStorage));
+};
+
 export const { logout } = accountsStore.actions;
 
 export default accountsStore.reducer;
-
-//export const { selectCurrentUser } = accountsStore.selectors;
-//export const selectCurrentUser = (state: RootState) => state.accounts.userInfo;

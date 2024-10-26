@@ -1,7 +1,13 @@
 export type Account = {
   id: string;
   email: string;
-  token: string | null;
+  accessToken: string | null;
+  refreshToken: string | null;
+  roles: Roles[];
+};
+
+export type Profile = {
+  email: string;
   roles: Roles[];
 };
 

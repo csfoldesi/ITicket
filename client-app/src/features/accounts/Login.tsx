@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { LoginDto } from "../../app/models/account";
 import { useLoginMutation } from "./accountsApi";
 import LoginForm from "./forms/LoginForm";
+import { Container } from "@mui/material";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -15,10 +16,10 @@ const Login = () => {
   };
 
   return (
-    <>
+    <Container>
       <h1>Login</h1>
       <LoginForm onSubmit={onSubmit} />
-    </>
+    </Container>
   );
 };
 

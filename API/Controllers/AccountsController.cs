@@ -1,6 +1,7 @@
 ﻿using API.Dto;
 using Application.Common;
 using Application.Common.Interfaces;
+using Domain;
 using Domain.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -33,15 +34,7 @@ public class AccountsController : BaseApiController
         );
         if (result.ResultCode == Application.Common.ResultCode.Success)
         {
-            var user = result.Value!;
-            var accountDto = new AccountDto
-            {
-                Id = user.Id,
-                Email = user.Email!,
-                AccessToken = await _tokenService.CreateAccessTokenAsync(user),
-                RefreshToken = await _tokenService.CreateRefreshTokenAsync(user),
-                Roles = await _identityService.GetUserRolesAsync(user),
-            };
+            var accountDto = await CreateAccountDtoFromUser(result.Value!);
             return HandleResult(Result<AccountDto>.Success(accountDto));
         }
         else
@@ -57,15 +50,7 @@ public class AccountsController : BaseApiController
 
         if (result.ResultCode == Application.Common.ResultCode.Success)
         {
-            var user = result.Value!;
-            var accountDto = new AccountDto
-            {
-                Id = user.Id,
-                Email = user.Email!,
-                AccessToken = await _tokenService.CreateAccessTokenAsync(user),
-                RefreshToken = await _tokenService.CreateRefreshTokenAsync(user),
-                Roles = await _identityService.GetUserRolesAsync(user),
-            };
+            var accountDto = await CreateAccountDtoFromUser(result.Value!);
             return HandleResult(Result<AccountDto>.Success(accountDto));
         }
         else
@@ -90,14 +75,33 @@ public class AccountsController : BaseApiController
         if (result.ResultCode == Application.Common.ResultCode.Success)
         {
             var user = result.Value!;
-            var accountDto = new AccountDto
+            var profileDto = new ProfileDto
             {
-                Id = user.Id,
                 Email = user.Email!,
                 Roles = await _identityService.GetUserRolesAsync(user),
-                AccessToken = string.Empty,
-                RefreshToken = string.Empty,
             };
+            return HandleResult(Result<ProfileDto>.Success(profileDto));
+        }
+        else
+        {
+            return Unauthorized(ApiResponse<ProfileDto>.Failure(result.Error));
+        }
+    }
+
+    [HttpPost("token/{refreshToken}")]
+    public async Task<IActionResult> RefreshToken(string refreshToken)
+    {
+        var userId = await _tokenService.GetUserIdByTokenAsync(refreshToken);
+        if (userId == null)
+        {
+            return Unauthorized(ApiResponse<AccountDto>.Failure("Invalid token"));
+        }
+
+        var result = await _identityService.GetUserProfileAsync(userId);
+        if (result.ResultCode == Application.Common.ResultCode.Success)
+        {
+            await _tokenService.ExtendRefreshTokenAsync(refreshToken);
+            var accountDto = await CreateAccountDtoFromUser(result.Value!, refreshToken);
             return HandleResult(Result<AccountDto>.Success(accountDto));
         }
         else
@@ -106,33 +110,16 @@ public class AccountsController : BaseApiController
         }
     }
 
-    [HttpPost("token/{token}")]
-    public async Task<IActionResult> RefreshToken(string token)
+    private async Task<AccountDto> CreateAccountDtoFromUser(User user, string? refreshToken = null)
     {
-        var userId = await _tokenService.GetUserIdByTokenAsync(token);
-        if (userId == null)
+        var accountDto = new AccountDto
         {
-            return Unauthorized(ApiResponse<AccountDto>.Failure("Invalid token"));
-        }
-
-        await _tokenService.ExtendRefreshTokenAsync(token);
-        var result = await _identityService.GetUserProfileAsync(userId);
-        if (result.ResultCode == Application.Common.ResultCode.Success)
-        {
-            var user = result.Value!;
-            var accountDto = new AccountDto
-            {
-                Id = user.Id,
-                Email = user.Email!,
-                AccessToken = await _tokenService.CreateAccessTokenAsync(user),
-                RefreshToken = token,
-                Roles = await _identityService.GetUserRolesAsync(user),
-            };
-            return HandleResult(Result<AccountDto>.Success(accountDto));
-        }
-        else
-        {
-            return Unauthorized(ApiResponse<AccountDto>.Failure(result.Error));
-        }
+            Id = user.Id,
+            Email = user.Email!,
+            AccessToken = await _tokenService.CreateAccessTokenAsync(user),
+            RefreshToken = refreshToken ?? await _tokenService.CreateRefreshTokenAsync(user),
+            Roles = await _identityService.GetUserRolesAsync(user),
+        };
+        return accountDto;
     }
 }

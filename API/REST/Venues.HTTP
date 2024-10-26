@@ -31,13 +31,13 @@ Content-Type: application/json
 
 
 #Edit Venue
-PUT {{API_HostAddress}}/092BF2CE-2870-4DA3-A898-8F5BEE976E8C
+PUT {{API_HostAddress}}/95cb366b-4669-4126-8143-a5aee1da96ff
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{accessToken}}
 
 {
-  "name": "Magyar Állami Operaház",
+  "name": "Magyar Állami Operaház 51",
   "description": "Magyar Állami Operahá",
   "address": {
     "country": "Magyarország",
@@ -56,7 +56,7 @@ Content-Type: application/json
 Authorization: Bearer {{accessToken}}
 
 {
-  "name": "Magyar Állami Operaház 4",
+  "name": "Magyar Állami Operaház 5",
   "description": "Magyar Állami Operaház",
   "address": {
     "country": "Magyarország",

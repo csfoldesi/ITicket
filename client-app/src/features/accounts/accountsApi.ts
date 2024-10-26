@@ -1,5 +1,5 @@
 import { ApiResponse, BaseApi } from "../../app/baseApi";
-import { Account, LoginDto, RegisterDto } from "../../app/models/account";
+import { Account, LoginDto, Profile, RegisterDto } from "../../app/models/account";
 
 export const accountsApi = BaseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -29,7 +29,7 @@ export const accountsApi = BaseApi.injectEndpoints({
       },
       transformResponse: (response: ApiResponse<Account>): Account => response.data!,
     }),
-    getProfile: builder.query<Account, null>({
+    getProfile: builder.query<Profile, null>({
       query: () => {
         return {
           url: "accounts",
