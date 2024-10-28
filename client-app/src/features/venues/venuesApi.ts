@@ -1,4 +1,4 @@
-import { ApiResponse, BaseApi, ListResponse, PagedQuery } from "../../app/baseApi";
+import { ApiResponse, BaseApi, ListResponse, PagedQuery } from "../../app/api/BaseApi";
 import { CreateVenueModel, VenueModel } from "../../app/models/venueModels";
 
 export interface VenuesQuery extends PagedQuery {

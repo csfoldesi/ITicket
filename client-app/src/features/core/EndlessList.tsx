@@ -1,5 +1,5 @@
 import { Virtuoso } from "react-virtuoso";
-import { ListResponse } from "../../app/baseApi";
+import { ListResponse } from "../../app/api/BaseApi";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Box, CircularProgress } from "@mui/material";
 import React from "react";

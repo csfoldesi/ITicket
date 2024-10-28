@@ -1,4 +1,4 @@
-import { ApiResponse, BaseApi, ListResponse, PagedQuery } from "../../app/baseApi";
+import { ApiResponse, BaseApi, ListResponse, PagedQuery } from "../../app/api/BaseApi";
 import { CreateEventModel, EventModel } from "../../app/models/eventModels";
 
 export interface EventsQuery extends PagedQuery {

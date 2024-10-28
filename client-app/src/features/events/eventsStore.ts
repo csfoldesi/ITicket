@@ -1,6 +1,5 @@
 import { EventModel } from "../../app/models/eventModels";
 import { createAppSlice } from "../../app/store/createAppSlice";
-import { eventsApi } from "./eventsApi";
 
 interface EventsState {
   eventList: EventModel[];
@@ -25,13 +24,6 @@ export const eventsStore = createAppSlice({
       state.currentPage += 1;
     },
   },
-  /*extraReducers: (builder) => {
-    builder.addMatcher(eventsApi.endpoints.getEventsList.matchFulfilled, (state, { payload }) => {
-      state.eventList = [...state.eventList, ...payload.items];
-      state.hasMorePages = payload.currentPage < payload.totalPages - 1;
-      state.currentPage = payload.currentPage;
-    });
-  },*/
   selectors: {
     selectEventList: (events) => events.eventList,
     selectHasMorePages: (events) => events.hasMorePages,

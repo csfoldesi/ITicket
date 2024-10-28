@@ -1,4 +1,4 @@
-import { refreshTokenApi } from "../../app/baseApi";
+import { RefreshTokenApi } from "../../app/api/BaseApi";
 import { Account } from "../../app/models/account";
 import { createAppSlice } from "../../app/store/createAppSlice";
 import { accountsApi } from "./accountsApi";
@@ -29,9 +29,9 @@ export const accountsStore = createAppSlice({
       state.userInfo = payload;
       saveUserInfoToLocalStorage(payload);
     });
-    builder.addMatcher(refreshTokenApi.endpoints.refresh.matchFulfilled, (state, { payload }) => {
-      state.userInfo = payload.data!;
-      saveUserInfoToLocalStorage(payload.data!);
+    builder.addMatcher(RefreshTokenApi.endpoints.refresh.matchFulfilled, (state, { payload }) => {
+      state.userInfo = payload;
+      saveUserInfoToLocalStorage(payload);
     });
   },
   selectors: {

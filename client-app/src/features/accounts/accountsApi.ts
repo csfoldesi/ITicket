@@ -1,4 +1,4 @@
-import { ApiResponse, BaseApi } from "../../app/baseApi";
+import { ApiResponse, BaseApi } from "../../app/api/BaseApi";
 import { Account, LoginDto, Profile, RegisterDto } from "../../app/models/account";
 
 export const accountsApi = BaseApi.injectEndpoints({
@@ -29,7 +29,7 @@ export const accountsApi = BaseApi.injectEndpoints({
       },
       transformResponse: (response: ApiResponse<Account>): Account => response.data!,
     }),
-    getProfile: builder.query<Profile, null>({
+    getProfile: builder.query<Profile, void>({
       query: () => {
         return {
           url: "accounts",
@@ -39,10 +39,10 @@ export const accountsApi = BaseApi.injectEndpoints({
           },
         };
       },
-      transformResponse: (response: ApiResponse<Account>): Account => response.data!,
+      transformResponse: (response: ApiResponse<Profile>): Profile => response.data!,
     }),
   }),
   overrideExisting: false,
 });
 
-export const { useLoginMutation, useRegisterMutation } = accountsApi;
+export const { useLoginMutation, useRegisterMutation, useGetProfileQuery } = accountsApi;
