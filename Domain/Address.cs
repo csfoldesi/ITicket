@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace Domain;
+﻿namespace Domain;
 
 public class Address
 {

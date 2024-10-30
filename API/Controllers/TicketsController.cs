@@ -6,7 +6,7 @@ namespace API.Controllers;
 
 public class TicketsController : BaseApiController
 {
-    [Authorize]
+    [Authorize(Roles = "Admin,TicketManager")]
     [HttpPost]
     public async Task<IActionResult> CreateTicket(CreateTicketDto createTicketDto)
     {

@@ -36,7 +36,7 @@ public class IsEventOwnerHandler : AuthorizationHandler<IsEventOwnerRequirement>
                 .Value?.ToString()!
         );
 
-        if (_dataContext.Events.Any(x => x.Id == eventId && x.CreatedBy == userId))
+        if (_dataContext.Events.Any(x => x.Id == eventId && x.OwnerId == new Guid(userId)))
             context.Succeed(requirement);
 
         return Task.CompletedTask;

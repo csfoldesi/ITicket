@@ -2,6 +2,7 @@
 using Application.Common.Interfaces;
 using AutoMapper;
 using Domain;
+using Domain.Interfaces;
 using MediatR;
 
 namespace Application.Events;
@@ -17,11 +18,13 @@ public class Create
     {
         private readonly IDataContext _dataContext;
         private readonly IMapper _mapper;
+        private readonly IUser _user;
 
-        public Handler(IDataContext dataContext, IMapper mapper)
+        public Handler(IDataContext dataContext, IMapper mapper, IUser user)
         {
             _dataContext = dataContext;
             _mapper = mapper;
+            _user = user;
         }
 
         public async Task<Result<Event>> Handle(
@@ -37,6 +40,7 @@ public class Create
 
             var newEvent = _mapper.Map<CreateEditDto, Event>(request.EventDto);
             newEvent.Venue = venue;
+            newEvent.OwnerId = new Guid(_user.Id!);
 
             _dataContext.Events.Add(newEvent);
 

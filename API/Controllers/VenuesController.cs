@@ -22,7 +22,7 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin,TicketManager")]
         [HttpPost]
         public async Task<IActionResult> CreateVenue(CreateEditDto venueDto)
         {

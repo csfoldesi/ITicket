@@ -1,3 +1,3 @@
 ﻿$env:JWT_KEY='6fbe6acf49a55cd2eede85eb93abd022f6939461e1dbeb451cce60dfc849f077'
-dotnet ef migrations add "RefreshToken_added" -p Persistence -s API --verbose
+dotnet ef migrations add "IsOWned_added" -p Infrastructure -s API --verbose
 dotnet ef migrations remove -p Persistence -s API --verbose

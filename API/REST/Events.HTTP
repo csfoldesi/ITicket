@@ -9,7 +9,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "email": "cs@cs.cs",
+  "email": "admin@admin.hu",
   "password": "Password1"
 }
 ###
@@ -48,13 +48,13 @@ Authorization: Bearer {{accessToken}}
   "title": "Create test",
   "description": "Create event test",
   "dateTime": "2024-10-20T21:00",
-  "venueId": "531f0074-6e6a-4954-8ad9-55a4d4b20220"
+  "venueId": "5ca10d92-d641-4324-b6e8-742582ac5023"
 }
 ###
 
 
 #Edit Event
-PUT {{API_HostAddress}}/EEC89508-DED8-4BE5-85D4-2E4A435ADB16
+PUT {{API_HostAddress}}/70DD0800-4B4B-42B3-9B25-EE25F5207F2F
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{accessToken}}
@@ -69,7 +69,7 @@ Authorization: Bearer {{accessToken}}
 
 
 # Delete Event
-DELETE {{API_HostAddress}}/13fa8fa9-eed0-46a6-87d2-6582f62b2f1b
+DELETE {{API_HostAddress}}/AD35E173-6D36-40C1-BE8F-A473B6EC1CCB
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{accessToken}}

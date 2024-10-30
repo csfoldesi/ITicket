@@ -21,7 +21,7 @@ public class EventsController : BaseApiController
         return HandleResult(result);
     }
 
-    [Authorize]
+    [Authorize(Roles = "Admin,EventManager")]
     [HttpPost]
     public async Task<IActionResult> CreateEvent(CreateEditDto eventDto)
     {

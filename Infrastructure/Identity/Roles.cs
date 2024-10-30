@@ -5,4 +5,7 @@ enum Roles
     Guest,
     User,
     Admin,
+    VenueManager,
+    TicketManager,
+    EventManager,
 }

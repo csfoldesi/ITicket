@@ -8,7 +8,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "email": "cs@cs.cs",
+  "email": "admin@admin.hu",
   "password": "Password1"
 }
 ###
@@ -31,7 +31,7 @@ Content-Type: application/json
 
 
 #Edit Venue
-PUT {{API_HostAddress}}/95cb366b-4669-4126-8143-a5aee1da96ff
+PUT {{API_HostAddress}}/95CB366B-4669-4126-8143-A5AEE1DA96FF
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{accessToken}}
@@ -69,7 +69,7 @@ Authorization: Bearer {{accessToken}}
 
 
 # Delete Venue
-DELETE {{API_HostAddress}}/092BF2CE-2870-4DA3-A898-8F5BEE976E8C
+DELETE {{API_HostAddress}}/5CA10D92-D641-4324-B6E8-742582AC5023
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{accessToken}}

@@ -36,7 +36,7 @@ public class IsVenueOwnerHandler : AuthorizationHandler<IsVenueOwnerRequirement>
                 .Value?.ToString()!
         );
 
-        if (_dataContext.Venues.Any(x => x.Id == venueId && x.CreatedBy == userId))
+        if (_dataContext.Venues.Any(x => x.Id == venueId && x.OwnerId == new Guid(userId)))
             context.Succeed(requirement);
 
         return Task.CompletedTask;
