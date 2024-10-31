@@ -24,9 +24,10 @@ Content-Type: application/json
 ###
 
 #Get Event list
-GET {{API_HostAddress}}?title=a
+GET {{API_HostAddress}}?isownedonly=true
 Accept: application/json
 Content-Type: application/json
+Authorization: Bearer {{accessToken}}
 
 ###
 

@@ -11,4 +11,6 @@ public class EventQueryParams : PagedQuery
     public DateTime? DateFrom { get; set; }
 
     public DateTime? DateTo { get; set; }
+
+    public bool? IsOwnedOnly { get; set; }
 }

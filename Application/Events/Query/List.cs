@@ -1,6 +1,7 @@
 ﻿using Application.Common;
 using Application.Common.Interfaces;
 using Domain;
+using Domain.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,10 +17,12 @@ public class List
     public class Handler : IRequestHandler<Query, Result<PagedList<Event>>>
     {
         private readonly IDataContext _dataContext;
+        private readonly IUser _user;
 
-        public Handler(IDataContext dataContext)
+        public Handler(IDataContext dataContext, IUser user)
         {
             _dataContext = dataContext;
+            _user = user;
         }
 
         public async Task<Result<PagedList<Event>>> Handle(
@@ -47,6 +50,10 @@ public class List
                 query = query.Where(x =>
                     x.Title.ToLower().Contains(request.QueryParams.Title.ToLower())
                 );
+            }
+            if (_user.Id != null && request.QueryParams.IsOwnedOnly.GetValueOrDefault())
+            {
+                query = query.Where(x => x.OwnerId == new Guid(_user.Id));
             }
 
             var result = await query

@@ -1,6 +1,7 @@
 ﻿using Application.Common;
 using Application.Common.Interfaces;
 using Domain;
+using Domain.Interfaces;
 using MediatR;
 
 namespace Application.Venues.Query;
@@ -15,10 +16,12 @@ public class List
     public class Handler : IRequestHandler<Query, Result<PagedList<Venue>>>
     {
         private readonly IDataContext _dataContext;
+        private readonly IUser _user;
 
-        public Handler(IDataContext dataContext)
+        public Handler(IDataContext dataContext, IUser user)
         {
             _dataContext = dataContext;
+            _user = user;
         }
 
         public async Task<Result<PagedList<Venue>>> Handle(
@@ -30,6 +33,10 @@ public class List
             if (!string.IsNullOrEmpty(request.Params.Name))
             {
                 query = query.Where(x => x.Name.ToLower().Contains(request.Params.Name.ToLower()));
+            }
+            if (_user.Id != null && request.Params.IsOwnedOnly.GetValueOrDefault())
+            {
+                query = query.Where(x => x.OwnerId == new Guid(_user.Id));
             }
 
             query = query.OrderBy(x => x.Name).ThenBy(x => x.Id);
