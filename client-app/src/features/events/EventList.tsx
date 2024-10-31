@@ -13,14 +13,14 @@ interface Props {
 }
 
 const EventList = ({ adminMode }: Props) => {
-  const [queryParams, setQueryParams] = React.useState<EventsQuery>({ pageNumber: 0 });
+  const [queryParams, setQueryParams] = React.useState<EventsQuery>({ pageNumber: 0, isOwnedOnly: adminMode });
   const { data: eventList, error, isLoading } = eventsApi.useGetEventsListQuery(queryParams);
   const { register, handleSubmit } = useForm<EventSearchDto>();
 
   const searchSubmit: SubmitHandler<EventSearchDto> = (data, event) => {
     event?.preventDefault();
     setQueryParams(() => {
-      return { pageNumber: 0, title: data.title, dateFrom: data.from, dateTo: data.to };
+      return { pageNumber: 0, title: data.title, dateFrom: data.from, dateTo: data.to, isOwnedOnly: adminMode };
     });
   };
 

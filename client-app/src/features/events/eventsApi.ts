@@ -5,6 +5,7 @@ export interface EventsQuery extends PagedQuery {
   venue?: string;
   dateFrom?: string;
   dateTo?: string;
+  isOwnedOnly?: boolean;
 }
 
 export const eventsApi = BaseApi.injectEndpoints({

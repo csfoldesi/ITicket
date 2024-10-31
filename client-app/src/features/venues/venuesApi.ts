@@ -3,6 +3,7 @@ import { CreateVenueModel, VenueModel } from "../../app/models/venueModels";
 
 export interface VenuesQuery extends PagedQuery {
   name?: string;
+  isOwnedOnly?: boolean;
 }
 
 export const venuesApi = BaseApi.injectEndpoints({

@@ -16,7 +16,11 @@ interface Props {
 }
 
 const VenueList = ({ adminMode }: Props) => {
-  const [queryParams, setQueryParams] = React.useState<VenuesQuery>({ pageNumber: 0, name: "" });
+  const [queryParams, setQueryParams] = React.useState<VenuesQuery>({
+    pageNumber: 0,
+    name: "",
+    isOwnedOnly: adminMode,
+  });
   const { data: venueList, error, isLoading } = venuesApi.useGetVenuesListQuery(queryParams);
   const [createVenue] = useCreateVenueMutation();
   const navigate = useNavigate();
@@ -37,7 +41,7 @@ const VenueList = ({ adminMode }: Props) => {
   const searchSubmit: SubmitHandler<VenueSearchDto> = (data, event) => {
     event?.preventDefault();
     setQueryParams(() => {
-      return { pageNumber: 0, name: data.name };
+      return { pageNumber: 0, name: data.name, isOwnedOnly: adminMode };
     });
   };
 
