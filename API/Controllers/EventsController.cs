@@ -21,6 +21,16 @@ public class EventsController : BaseApiController
         return HandleResult(result);
     }
 
+    [Authorize]
+    [HttpGet("owned")]
+    public async Task<IActionResult> ListEventsOwned([FromQuery] EventQueryParams queryParams)
+    {
+        var result = await Mediator.Send(
+            new List.Query { QueryParams = queryParams, IsOwnedOnly = true }
+        );
+        return HandleResult(result);
+    }
+
     [Authorize(Roles = "Admin,EventManager")]
     [HttpPost]
     public async Task<IActionResult> CreateEvent(CreateEditDto eventDto)

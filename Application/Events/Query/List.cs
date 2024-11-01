@@ -12,6 +12,7 @@ public class List
     public class Query : IRequest<Result<PagedList<Event>>>
     {
         public required EventQueryParams QueryParams { get; set; }
+        public bool IsOwnedOnly { get; set; }
     }
 
     public class Handler : IRequestHandler<Query, Result<PagedList<Event>>>
@@ -51,7 +52,7 @@ public class List
                     x.Title.ToLower().Contains(request.QueryParams.Title.ToLower())
                 );
             }
-            if (_user.Id != null && request.QueryParams.IsOwnedOnly.GetValueOrDefault())
+            if (_user.Id != null && request.IsOwnedOnly)
             {
                 query = query.Where(x => x.OwnerId == new Guid(_user.Id));
             }

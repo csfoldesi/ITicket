@@ -5,6 +5,4 @@ namespace Application.Venues.Query;
 public class VenueQueryParams : PagedQuery
 {
     public string? Name { get; set; }
-
-    public bool? IsOwnedOnly { get; set; }
 }

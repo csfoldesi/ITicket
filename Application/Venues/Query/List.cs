@@ -11,6 +11,7 @@ public class List
     public class Query : IRequest<Result<PagedList<Venue>>>
     {
         public required VenueQueryParams Params { get; set; }
+        public bool IsOwnedOnly { get; set; }
     }
 
     public class Handler : IRequestHandler<Query, Result<PagedList<Venue>>>
@@ -34,7 +35,7 @@ public class List
             {
                 query = query.Where(x => x.Name.ToLower().Contains(request.Params.Name.ToLower()));
             }
-            if (_user.Id != null && request.Params.IsOwnedOnly.GetValueOrDefault())
+            if (_user.Id != null && request.IsOwnedOnly)
             {
                 query = query.Where(x => x.OwnerId == new Guid(_user.Id));
             }

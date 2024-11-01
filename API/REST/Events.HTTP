@@ -31,6 +31,15 @@ Authorization: Bearer {{accessToken}}
 
 ###
 
+#Get Owned Event list
+GET {{API_HostAddress}}/owned
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+###
+
+
 #Get Event list by Venue
 GET {{API_HostAddress}}?venue=4E5FA185-73DE-449A-BB58-4C9A51D0AD45
 Accept: application/json

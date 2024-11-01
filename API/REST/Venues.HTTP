@@ -23,12 +23,21 @@ Content-Type: application/json
 
 
 #Get Venue list
-GET {{API_HostAddress}}?pagenumber=0&pagesize=10&isownedonly=true
+GET {{API_HostAddress}}?pagenumber=0&pagesize=10
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{accessToken}}
 
 ###
+
+#Get Owned Venue list
+GET {{API_HostAddress}}/owned?pagenumber=0&pagesize=10
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+###
+
 
 
 #Edit Venue

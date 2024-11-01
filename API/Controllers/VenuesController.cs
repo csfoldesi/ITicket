@@ -22,6 +22,16 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
+        [Authorize]
+        [HttpGet("owned")]
+        public async Task<IActionResult> ListVenuesOwned([FromQuery] VenueQueryParams queryParams)
+        {
+            var result = await Mediator.Send(
+                new List.Query { Params = queryParams, IsOwnedOnly = true }
+            );
+            return HandleResult(result);
+        }
+
         [Authorize(Roles = "Admin,TicketManager")]
         [HttpPost]
         public async Task<IActionResult> CreateVenue(CreateEditDto venueDto)
