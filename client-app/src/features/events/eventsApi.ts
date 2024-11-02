@@ -13,7 +13,7 @@ export const eventsApi = BaseApi.injectEndpoints({
     getEventsList: builder.query<ListResponse<EventModel>, EventsQuery>({
       query: (arg) => {
         return {
-          url: "events",
+          url: arg.isOwnedOnly ? "events/owned" : "events",
           params: { ...arg },
         };
       },

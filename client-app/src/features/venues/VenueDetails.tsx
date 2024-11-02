@@ -1,17 +1,16 @@
 import React from "react";
 import AddIcon from "@mui/icons-material/Add";
 import { useNavigate } from "react-router-dom";
-import { useDeleteVenueMutation, useEditVenueMutation, useGetVenueDetailQuery } from "./venuesApi";
+import { useDeleteVenueMutation, useGetVenueDetailQuery } from "./venuesApi";
 import { Box, Button, Container, Dialog, DialogContent, DialogTitle } from "@mui/material";
 import { useCreateEventMutation } from "../events/eventsApi";
 import { Event, EventModel } from "../../app/models/eventModels";
 import VenueEventList from "../events/VenueEventList";
 import CreateEditEventForm from "../events/forms/CreateEditEventForm";
-import CreateEditVenueForm from "./forms/CreateEditVenueForm";
-import { Venue, VenueModel } from "../../app/models/venueModels";
 import AlertDialog from "../core/AlertDialog";
 import Error from "../core/Error";
 import useIdParam from "../core/hooks/useIdParam";
+import CreateEditVenue from "./edit/CreateEditVenue";
 
 interface Props {
   adminMode?: boolean;
@@ -21,7 +20,6 @@ const VenueDetails = ({ adminMode }: Props) => {
   const venueId = useIdParam();
   const { data: venue, error, isLoading } = useGetVenueDetailQuery(venueId ?? "");
   const [createEvent] = useCreateEventMutation();
-  const [editVenue] = useEditVenueMutation();
   const [deleteVenue] = useDeleteVenueMutation();
   const navigate = useNavigate();
 
@@ -30,8 +28,6 @@ const VenueDetails = ({ adminMode }: Props) => {
   const handleEventClose = () => setEventOpen(false);
 
   const [venueOpen, setVenueOpen] = React.useState(false);
-  const handleVenueOpen = () => setVenueOpen(true);
-  const handleVenueClose = () => setVenueOpen(false);
 
   const [alertOpen, setAlertOpen] = React.useState(false);
   const handleAlertSubmit = async () => {
@@ -43,11 +39,6 @@ const VenueDetails = ({ adminMode }: Props) => {
   const onCreateEvent = async (event: EventModel) => {
     await createEvent(Event.EventModel_CreateEventModel(event));
     handleEventClose();
-  };
-
-  const onEditVenue = async (venue: VenueModel) => {
-    await editVenue(Venue.VenueModel_CreateVenueModel(venue));
-    handleVenueClose();
   };
 
   if (error) return <Error error={error} />;
@@ -66,7 +57,12 @@ const VenueDetails = ({ adminMode }: Props) => {
       {adminMode && (
         <>
           <Box component={"div"}>
-            <Button variant="contained" onClick={handleVenueOpen} sx={{ marginRight: "1em" }}>
+            <Button
+              variant="contained"
+              onClick={() => {
+                setVenueOpen(true);
+              }}
+              sx={{ marginRight: "1em" }}>
               Edit Venue
             </Button>
             <Button variant="contained" color="error" onClick={() => setAlertOpen(true)} sx={{ marginRight: "1em" }}>
@@ -76,6 +72,14 @@ const VenueDetails = ({ adminMode }: Props) => {
               New Event
             </Button>
           </Box>
+          <CreateEditVenue
+            isOpen={venueOpen}
+            onClose={() => {
+              setVenueOpen(false);
+            }}
+            venue={venue}
+          />
+
           <Dialog open={eventOpen} onClose={handleEventClose}>
             <DialogTitle>Create new event</DialogTitle>
             <DialogContent>
@@ -84,12 +88,6 @@ const VenueDetails = ({ adminMode }: Props) => {
                 onCancel={handleEventClose}
                 event={{ ...Event.EventModel(), venue: venue }}
               />
-            </DialogContent>
-          </Dialog>
-          <Dialog open={venueOpen} onClose={handleVenueClose}>
-            <DialogTitle>Edit Venue</DialogTitle>
-            <DialogContent>
-              <CreateEditVenueForm onSubmit={onEditVenue} onCancel={handleVenueClose} venue={venue} />
             </DialogContent>
           </Dialog>
           <AlertDialog

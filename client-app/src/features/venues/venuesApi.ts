@@ -9,10 +9,10 @@ export interface VenuesQuery extends PagedQuery {
 export const venuesApi = BaseApi.injectEndpoints({
   endpoints: (builder) => ({
     getVenuesList: builder.query<ListResponse<VenueModel>, VenuesQuery>({
-      query: (arg) => {
+      query: (args) => {
         return {
-          url: "venues",
-          params: { ...arg },
+          url: args.isOwnedOnly ? "venues/owned" : "venues",
+          params: { ...args },
         };
       },
       providesTags: ["Venue"],
