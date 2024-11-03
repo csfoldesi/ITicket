@@ -3,10 +3,12 @@ import VenueListItem from "./VenueListItem";
 import React from "react";
 import AddIcon from "@mui/icons-material/Add";
 import EndlessList from "../core/EndlessList";
-import { Button, Container } from "@mui/material";
+import { Container } from "@mui/material";
 import Error from "../core/Error";
 import VenueSearchView from "./VenueSearchView";
 import CreateEditVenue from "./edit/CreateEditVenue";
+import useDialogOpenButton from "../core/hooks/useDialogOpenButton";
+import { Outlet } from "react-router-dom";
 
 interface Props {
   adminMode?: boolean;
@@ -20,7 +22,11 @@ const VenueList = ({ adminMode }: Props) => {
   });
   const { data: venueList, error, isLoading } = venuesApi.useGetVenuesListQuery(queryParams);
 
-  const [createVenueIsOpen, setCreateVenueIsOpen] = React.useState(false);
+  const {
+    isOpen: createVenueDialogIsOpen,
+    closeDialog: closeCreateVenueDialog,
+    OpenButton: CreateVenueButton,
+  } = useDialogOpenButton("New venue", <AddIcon />);
 
   const nextPage = () => {
     setQueryParams((prev) => {
@@ -37,11 +43,7 @@ const VenueList = ({ adminMode }: Props) => {
     <Container>
       <h1>Venues</h1>
       <VenueSearchView setQuery={setQueryParams} adminMode={adminMode}>
-        {adminMode && (
-          <Button variant="contained" onClick={() => setCreateVenueIsOpen(true)} startIcon={<AddIcon />}>
-            New Venue
-          </Button>
-        )}
+        {adminMode && <CreateVenueButton />}
       </VenueSearchView>
       <EndlessList
         dataList={venueList}
@@ -50,12 +52,7 @@ const VenueList = ({ adminMode }: Props) => {
         render={(venue, index) => <VenueListItem venue={venue} key={venue.id} />}
       />
       {adminMode && (
-        <CreateEditVenue
-          isOpen={createVenueIsOpen}
-          onClose={() => {
-            setCreateVenueIsOpen(false);
-          }}
-        />
+        <CreateEditVenue isOpen={createVenueDialogIsOpen} onClose={closeCreateVenueDialog} title="New Venue" />
       )}
     </Container>
   );

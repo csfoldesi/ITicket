@@ -9,9 +9,10 @@ interface Props {
   onClose: () => void;
   venue?: VenueModel;
   onSuccess?: (venue?: VenueModel) => void;
+  title?: string;
 }
 
-const CreateEditVenue = ({ isOpen, onClose, venue = Venue.VenueModel(), onSuccess }: Props) => {
+const CreateEditVenue = ({ isOpen, onClose, venue = Venue.VenueModel(), onSuccess, title }: Props) => {
   const [createVenue] = useCreateVenueMutation();
   const [editVenue] = useEditVenueMutation();
   //const navigate = useNavigate();
@@ -35,7 +36,7 @@ const CreateEditVenue = ({ isOpen, onClose, venue = Venue.VenueModel(), onSucces
   return (
     <>
       <Dialog open={isOpen} onClose={onClose} maxWidth={"lg"} fullWidth>
-        <DialogTitle>Create new venue</DialogTitle>
+        <DialogTitle>{title ? title : "Venue"}</DialogTitle>
         <DialogContent>
           <CreateEditVenueForm onSubmit={onSubmit} onCancel={onClose} venue={venue} />
         </DialogContent>

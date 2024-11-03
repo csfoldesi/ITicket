@@ -2,15 +2,15 @@ import React from "react";
 import AddIcon from "@mui/icons-material/Add";
 import { useNavigate } from "react-router-dom";
 import { useDeleteVenueMutation, useGetVenueDetailQuery } from "./venuesApi";
-import { Box, Button, Container, Dialog, DialogContent, DialogTitle } from "@mui/material";
-import { useCreateEventMutation } from "../events/eventsApi";
-import { Event, EventModel } from "../../app/models/eventModels";
+import { Box, Button, Container } from "@mui/material";
+import { Event } from "../../app/models/eventModels";
 import VenueEventList from "../events/VenueEventList";
-import CreateEditEventForm from "../events/forms/CreateEditEventForm";
 import AlertDialog from "../core/AlertDialog";
 import Error from "../core/Error";
 import useIdParam from "../core/hooks/useIdParam";
 import CreateEditVenue from "./edit/CreateEditVenue";
+import useDialogOpenButton from "../core/hooks/useDialogOpenButton";
+import CreateEditEvent from "../events/forms/CreateEditEvent";
 
 interface Props {
   adminMode?: boolean;
@@ -19,26 +19,25 @@ interface Props {
 const VenueDetails = ({ adminMode }: Props) => {
   const venueId = useIdParam();
   const { data: venue, error, isLoading } = useGetVenueDetailQuery(venueId ?? "");
-  const [createEvent] = useCreateEventMutation();
   const [deleteVenue] = useDeleteVenueMutation();
   const navigate = useNavigate();
 
-  const [eventOpen, setEventOpen] = React.useState(false);
-  const handleEventOpen = () => setEventOpen(true);
-  const handleEventClose = () => setEventOpen(false);
-
-  const [venueOpen, setVenueOpen] = React.useState(false);
+  const {
+    isOpen: createEventDialogIsOpen,
+    closeDialog: closeCreateEventDialog,
+    OpenButton: CreateEventButton,
+  } = useDialogOpenButton("New event", <AddIcon />);
+  const {
+    isOpen: editVenueDialogIsOpen,
+    closeDialog: closeEditVenueDialog,
+    OpenButton: EditVenueButton,
+  } = useDialogOpenButton("Edit venue");
 
   const [alertOpen, setAlertOpen] = React.useState(false);
   const handleAlertSubmit = async () => {
     setAlertOpen(false);
     await deleteVenue(venue!.id!);
     navigate("/venues");
-  };
-
-  const onCreateEvent = async (event: EventModel) => {
-    await createEvent(Event.EventModel_CreateEventModel(event));
-    handleEventClose();
   };
 
   if (error) return <Error error={error} />;
@@ -57,39 +56,24 @@ const VenueDetails = ({ adminMode }: Props) => {
       {adminMode && (
         <>
           <Box component={"div"}>
-            <Button
-              variant="contained"
-              onClick={() => {
-                setVenueOpen(true);
-              }}
-              sx={{ marginRight: "1em" }}>
-              Edit Venue
-            </Button>
+            <EditVenueButton />
             <Button variant="contained" color="error" onClick={() => setAlertOpen(true)} sx={{ marginRight: "1em" }}>
               Delete Venue
             </Button>
-            <Button variant="contained" onClick={handleEventOpen} startIcon={<AddIcon />}>
-              New Event
-            </Button>
+            <CreateEventButton />
           </Box>
           <CreateEditVenue
-            isOpen={venueOpen}
-            onClose={() => {
-              setVenueOpen(false);
-            }}
+            isOpen={editVenueDialogIsOpen}
+            onClose={closeEditVenueDialog}
             venue={venue}
+            title="Edit Venue"
           />
-
-          <Dialog open={eventOpen} onClose={handleEventClose}>
-            <DialogTitle>Create new event</DialogTitle>
-            <DialogContent>
-              <CreateEditEventForm
-                onSubmit={onCreateEvent}
-                onCancel={handleEventClose}
-                event={{ ...Event.EventModel(), venue: venue }}
-              />
-            </DialogContent>
-          </Dialog>
+          <CreateEditEvent
+            isOpen={createEventDialogIsOpen}
+            onClose={closeCreateEventDialog}
+            event={{ ...Event.EventModel(), venue: venue }}
+            title="New Event"
+          />
           <AlertDialog
             title="Delete venue"
             description="Do you really want to delete this venua and all of its events?"
