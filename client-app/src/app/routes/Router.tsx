@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouteObject } from "react-router-dom";
+import { createBrowserRouter, Outlet, RouteObject } from "react-router-dom";
 import ErrorPage from "../../features/errors/ErrorPage";
 import VenueList from "../../features/venues/VenueList";
 import EventList from "../../features/events/EventList";
@@ -10,7 +10,7 @@ import Profile from "../../features/accounts/Profile";
 import Register from "../../features/accounts/Register";
 import Admin from "../../features/admin/Admin";
 
-const routes: RouteObject[] = [
+export const routes: RouteObject[] = [
   {
     path: "/",
     element: <App />,
@@ -18,23 +18,41 @@ const routes: RouteObject[] = [
     children: [
       {
         path: "venues",
-        element: <VenueList />,
-      },
-      {
-        path: "venues/:id",
-        element: <VenueDetails />,
-      },
-      {
-        path: "venues/:venueId/:id",
-        element: <EventDetails />,
+        element: <Outlet />,
+        children: [
+          {
+            index: true,
+            element: <VenueList />,
+          },
+          {
+            path: ":id",
+            element: <Outlet />,
+            children: [
+              {
+                index: true,
+                element: <VenueDetails />,
+              },
+              {
+                path: ":id",
+                element: <EventDetails />,
+              },
+            ],
+          },
+        ],
       },
       {
         path: "events",
-        element: <EventList />,
-      },
-      {
-        path: "events/:id",
-        element: <EventDetails />,
+        element: <Outlet />,
+        children: [
+          {
+            index: true,
+            element: <EventList />,
+          },
+          {
+            path: ":id",
+            element: <EventDetails />,
+          },
+        ],
       },
       {
         path: "login",
@@ -51,26 +69,56 @@ const routes: RouteObject[] = [
       {
         path: "admin",
         element: <Admin />,
+        handle: { crumb: "Admin" },
         children: [
           {
             path: "venues",
-            element: <VenueList adminMode={true} />,
-          },
-          {
-            path: "venues/:id",
-            element: <VenueDetails adminMode={true} />,
-          },
-          {
-            path: "venues/:venueId/:id",
-            element: <EventDetails adminMode={true} />,
+            element: <Outlet />,
+            children: [
+              {
+                index: true,
+                element: <VenueList adminMode={true} />,
+                handle: { crumb: "Venues" },
+              },
+              {
+                path: ":id",
+                element: <Outlet />,
+                children: [
+                  {
+                    index: true,
+                    element: <VenueDetails adminMode={true} />,
+                    handle: { crumb: "VenueDetails" },
+                  },
+                  {
+                    path: ":id",
+                    element: <EventDetails adminMode={true} />,
+                    handle: { crumb: "VenueEventDetails" },
+                  },
+                ],
+              },
+            ],
           },
           {
             path: "events",
-            element: <EventList adminMode={true} />,
-          },
-          {
-            path: "events/:id",
-            element: <EventDetails adminMode={true} />,
+            element: <Outlet />,
+            children: [
+              {
+                index: true,
+                element: <EventList adminMode={true} />,
+                handle: { crumb: "Events" },
+              },
+              {
+                path: ":id",
+                element: <Outlet />,
+                children: [
+                  {
+                    index: true,
+                    element: <EventDetails adminMode={true} />,
+                    handle: { crumb: "EventDetails" },
+                  },
+                ],
+              },
+            ],
           },
         ],
       },
