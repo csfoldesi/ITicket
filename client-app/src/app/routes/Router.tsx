@@ -19,22 +19,27 @@ export const routes: RouteObject[] = [
       {
         path: "venues",
         element: <Outlet />,
+        handle: { crumb: "Venues" },
         children: [
           {
             index: true,
             element: <VenueList />,
+            handle: { crumb: "Venues" },
           },
           {
             path: ":id",
             element: <Outlet />,
+            handle: { crumb: "Venue", id: "venue" },
             children: [
               {
                 index: true,
                 element: <VenueDetails />,
+                handle: { crumb: "Venue", id: "venue" },
               },
               {
                 path: ":id",
                 element: <EventDetails />,
+                handle: { crumb: "Event", id: "event" },
               },
             ],
           },
@@ -43,28 +48,34 @@ export const routes: RouteObject[] = [
       {
         path: "events",
         element: <Outlet />,
+        handle: { crumb: "Events" },
         children: [
           {
             index: true,
             element: <EventList />,
+            handle: { crumb: "Events" },
           },
           {
             path: ":id",
             element: <EventDetails />,
+            handle: { crumb: "Event", id: "event" },
           },
         ],
       },
       {
         path: "login",
         element: <Login />,
+        handle: { crumb: "Login" },
       },
       {
         path: "profile",
         element: <Profile />,
+        handle: { crumb: "Profile" },
       },
       {
         path: "register",
         element: <Register />,
+        handle: { crumb: "Register" },
       },
       {
         path: "admin",
@@ -74,6 +85,7 @@ export const routes: RouteObject[] = [
           {
             path: "venues",
             element: <Outlet />,
+            handle: { crumb: "Venues" },
             children: [
               {
                 index: true,
@@ -83,16 +95,17 @@ export const routes: RouteObject[] = [
               {
                 path: ":id",
                 element: <Outlet />,
+                handle: { crumb: "Venue", id: "venue" },
                 children: [
                   {
                     index: true,
                     element: <VenueDetails adminMode={true} />,
-                    handle: { crumb: "VenueDetails" },
+                    handle: { crumb: "Venue", id: "venue" },
                   },
                   {
                     path: ":id",
                     element: <EventDetails adminMode={true} />,
-                    handle: { crumb: "VenueEventDetails" },
+                    handle: { crumb: "Event", id: "event" },
                   },
                 ],
               },
@@ -101,6 +114,7 @@ export const routes: RouteObject[] = [
           {
             path: "events",
             element: <Outlet />,
+            handle: { crumb: "Events" },
             children: [
               {
                 index: true,
@@ -110,11 +124,12 @@ export const routes: RouteObject[] = [
               {
                 path: ":id",
                 element: <Outlet />,
+                handle: { crumb: "Event", id: "event" },
                 children: [
                   {
                     index: true,
                     element: <EventDetails adminMode={true} />,
-                    handle: { crumb: "EventDetails" },
+                    handle: { crumb: "Event", id: "event" },
                   },
                 ],
               },

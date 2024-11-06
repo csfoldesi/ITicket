@@ -4,12 +4,14 @@ import { setupListeners } from "@reduxjs/toolkit/query";
 import accountsStore from "../../features/accounts/accountsStore";
 import eventsStore from "../../features/events/eventsStore";
 import { BaseApi, RefreshTokenApi } from "../api/BaseApi";
+import breadcrumbsStore from "../../features/core/breadcrumbs/breadcrumbsStore";
 
 export const store = configureStore({
   reducer: {
     venues: venuesStore,
     accounts: accountsStore,
     events: eventsStore,
+    breadcrumbs: breadcrumbsStore,
     [BaseApi.reducerPath]: BaseApi.reducer,
     [RefreshTokenApi.reducerPath]: RefreshTokenApi.reducer,
   },

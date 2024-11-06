@@ -1,10 +1,11 @@
 import { AccountCircle } from "@mui/icons-material";
-import { AppBar, Button, IconButton, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
+import { AppBar, Button, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { logout } from "../../features/accounts/accountsStore";
 import { Roles } from "../models/account";
+import BreadcrumbsView from "./BreadcrumbsView";
 
 const NavBar = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -92,6 +93,7 @@ const NavBar = () => {
           {userInfo ? menuAthorized() : menuUnathorized()}
         </div>
       </Toolbar>
+      <BreadcrumbsView />
     </AppBar>
   );
 };
