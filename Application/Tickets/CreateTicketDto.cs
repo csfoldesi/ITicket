@@ -2,7 +2,7 @@
 
 public class CreateTicketDto
 {
-    public required Guid EventId { get; set; }
+    public Guid? EventId { get; set; }
 
     public double Price { get; set; }
 
