@@ -14,4 +14,12 @@ public class TicketsController : BaseApiController
         var result = await Mediator.Send(new Create.Command { CreateTicketDto = createTicketDto });
         return HandleResult(result);
     }
+
+    [Authorize(Roles = "Admin,TicketManager", Policy = "IsEventOwner")]
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetEventTicketsForAdministration(Guid id)
+    {
+        var result = await Mediator.Send(new GetByEvent.Query { EventId = id });
+        return HandleResult(result);
+    }
 }

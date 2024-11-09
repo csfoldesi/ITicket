@@ -17,13 +17,22 @@ Content-Type: application/json
 
 
 # Create Ticket
-POST {{API_HostAddress}}/52a1fd5a-569b-40e5-bdf1-4bf714cfbe70
+POST {{API_HostAddress}}/3f6599ab-1cbf-438b-b1ec-c046a835bb6f
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{accessToken}}
 
 {
-    "price": 6000,
-    "quantity": 3,
+    "price": 10000,
+    "quantity": 20,
     "status" : "AVAILABLE"
 }
+###
+
+# Get Tickets of an event
+GET {{API_HostAddress}}/3f6599ab-1cbf-438b-b1ec-c046a835bb6f
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+###
