@@ -6,6 +6,7 @@ import CreateEditEventForm from "./forms/CreateEditEventForm";
 import { Event, EventModel } from "../../app/models/eventModels";
 import AlertDialog from "../core/AlertDialog";
 import Error from "../core/Error";
+import EventTickets from "./EvenTickets";
 
 interface Props {
   adminMode?: boolean;
@@ -72,6 +73,7 @@ const EventDetails = ({ adminMode }: Props) => {
             }}
             onSubmit={handleAlertSubmit}
           />
+          <EventTickets eventId={event.id!} />
         </>
       )}
     </Container>

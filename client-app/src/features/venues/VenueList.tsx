@@ -8,7 +8,6 @@ import Error from "../core/Error";
 import VenueSearchView from "./VenueSearchView";
 import CreateEditVenue from "./edit/CreateEditVenue";
 import useDialogOpenButton from "../core/hooks/useDialogOpenButton";
-import { Outlet } from "react-router-dom";
 
 interface Props {
   adminMode?: boolean;

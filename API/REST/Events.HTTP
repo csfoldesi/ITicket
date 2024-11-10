@@ -17,7 +17,7 @@ Content-Type: application/json
 
 
 #Get Event
-GET {{API_HostAddress}}/EEC89508-DED8-4BE5-85D4-2E4A435ADB16
+GET {{API_HostAddress}}/3f6599ab-1cbf-438b-b1ec-c046a835bb6f
 Accept: application/json
 Content-Type: application/json
 
