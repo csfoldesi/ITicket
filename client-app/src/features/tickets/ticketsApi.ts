@@ -1,5 +1,5 @@
 import { ApiResponse, BaseApi } from "../../app/api/BaseApi";
-import { TicketType } from "../../app/models/ticketModels";
+import { CreateTicketModel, TicketType } from "../../app/models/ticketModels";
 
 export const ticketsApi = BaseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -10,9 +10,24 @@ export const ticketsApi = BaseApi.injectEndpoints({
         };
       },
       transformResponse: (response: ApiResponse<TicketType[]>): TicketType[] => response.data!,
+      providesTags: ["Ticket"],
+    }),
+    createTicket: builder.mutation<{}, CreateTicketModel>({
+      query: (createTicket) => {
+        return {
+          url: `tickets/${createTicket.eventId}`,
+          method: "post",
+          body: createTicket,
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        };
+      },
+      invalidatesTags: ["Ticket"],
+      transformResponse: (response: ApiResponse<{}>): {} => response.data!,
     }),
   }),
   overrideExisting: false,
 });
 
-export const { useGetEventTicketsForAdministrationQuery } = ticketsApi;
+export const { useGetEventTicketsForAdministrationQuery, useCreateTicketMutation } = ticketsApi;

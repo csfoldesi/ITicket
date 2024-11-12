@@ -22,7 +22,6 @@ export interface PagedQuery {
   pageSize?: number;
 }
 
-
 export const BaseQuery = fetchBaseQuery({
   baseUrl: process.env.REACT_APP_API_URL,
   prepareHeaders: (headers, { getState }) => {
@@ -60,8 +59,7 @@ export const BaseQueryWithErrorHandling: BaseQueryFn<string | FetchArgs, unknown
 export const BaseApi = createApi({
   reducerPath: "api",
   baseQuery: BaseQueryWithErrorHandling,
-  tagTypes: ["Event", "Venue"],
+  tagTypes: ["Event", "Venue", "Ticket"],
   endpoints: () => ({}),
 });
 export { RefreshTokenApi };
-

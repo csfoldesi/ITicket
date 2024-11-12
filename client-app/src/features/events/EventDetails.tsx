@@ -6,7 +6,7 @@ import CreateEditEventForm from "./forms/CreateEditEventForm";
 import { Event, EventModel } from "../../app/models/eventModels";
 import AlertDialog from "../core/AlertDialog";
 import Error from "../core/Error";
-import EventTickets from "./EvenTickets";
+import EventTickets from "../tickets/EvenTickets";
 
 interface Props {
   adminMode?: boolean;
