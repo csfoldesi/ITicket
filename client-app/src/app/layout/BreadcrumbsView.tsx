@@ -16,7 +16,11 @@ const BreadcrumbsView = () => {
       const id = pathParts.length > 0 ? pathParts[pathParts.length - 1] : "";
       const crumb = {
         path: match.pathname,
-        title: handle.id ? breadcrumbsTitles[handle.id + "" + id] : handle.crumb,
+        title: handle.id
+          ? breadcrumbsTitles[handle.id + "" + id]
+            ? breadcrumbsTitles[handle.id + "" + id]
+            : handle.crumb
+          : handle.crumb,
         id: handle.id,
       };
       return crumb;
