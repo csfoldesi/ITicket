@@ -29,10 +29,17 @@ Authorization: Bearer {{accessToken}}
 }
 ###
 
+# Get Tickets of an event for Admin
+GET {{API_HostAddress}}/admin/3f6599ab-1cbf-438b-b1ec-c046a835bb6f
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+###
+
 # Get Tickets of an event
 GET {{API_HostAddress}}/3f6599ab-1cbf-438b-b1ec-c046a835bb6f
 Accept: application/json
 Content-Type: application/json
-Authorization: Bearer {{accessToken}}
 
 ###
