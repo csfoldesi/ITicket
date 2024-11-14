@@ -6,6 +6,15 @@ export const ticketsApi = BaseApi.injectEndpoints({
     getEventTicketsForAdministration: builder.query<TicketType[], string>({
       query: (eventId) => {
         return {
+          url: `tickets/admin/${eventId}`,
+        };
+      },
+      transformResponse: (response: ApiResponse<TicketType[]>): TicketType[] => response.data!,
+      providesTags: ["Ticket"],
+    }),
+    getEventTickets: builder.query<TicketType[], string>({
+      query: (eventId) => {
+        return {
           url: `tickets/${eventId}`,
         };
       },
@@ -30,4 +39,5 @@ export const ticketsApi = BaseApi.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useGetEventTicketsForAdministrationQuery, useCreateTicketMutation } = ticketsApi;
+export const { useGetEventTicketsForAdministrationQuery, useGetEventTicketsQuery, useCreateTicketMutation } =
+  ticketsApi;
