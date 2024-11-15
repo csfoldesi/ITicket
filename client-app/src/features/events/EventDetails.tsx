@@ -1,12 +1,13 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useDeleteEventMutation, useEditEventMutation, useGetEventDetailQuery } from "./eventsApi";
-import { Button, Container, Dialog, DialogContent, DialogTitle } from "@mui/material";
+import { Button, Container, Dialog, DialogContent, DialogTitle, Divider } from "@mui/material";
 import React from "react";
 import CreateEditEventForm from "./forms/CreateEditEventForm";
 import { Event, EventModel } from "../../app/models/eventModels";
 import AlertDialog from "../core/AlertDialog";
 import Error from "../core/Error";
-import EventTickets from "../tickets/EvenTickets";
+import EventTicketsAdmin from "../tickets/EvenTicketsAdmin";
+import EventTickets from "../tickets/EventTickets";
 
 interface Props {
   adminMode?: boolean;
@@ -50,6 +51,8 @@ const EventDetails = ({ adminMode }: Props) => {
       <p>
         {event?.venue.name} - {event?.dateTime.toString()}
       </p>
+      <Divider />
+      {!adminMode && <EventTickets eventId={event.id!} />}
       {adminMode && (
         <>
           <Button variant="contained" onClick={handleOpen} sx={{ marginRight: "1em" }}>
@@ -73,7 +76,7 @@ const EventDetails = ({ adminMode }: Props) => {
             }}
             onSubmit={handleAlertSubmit}
           />
-          <EventTickets eventId={event.id!} />
+          <EventTicketsAdmin eventId={event.id!} />
         </>
       )}
     </Container>

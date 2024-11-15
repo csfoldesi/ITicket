@@ -28,7 +28,8 @@ public class GetByEvent
         {
             var result = await _dataContext
                 .Tickets.Where(ticket =>
-                    ticket.Event.Id == request.EventId && ticket.Status.Status == "AVAILABLE"
+                    ticket.Event.Id == request.EventId
+                    && (ticket.Status.Status == "AVAILABLE" || ticket.Status.Status == "DEFAULT")
                 )
                 .GroupBy(ticket => ticket.Price)
                 .Select(group => new TicketTypeDto { Price = group.Key, Quantity = group.Count() })

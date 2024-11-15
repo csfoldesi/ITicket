@@ -9,7 +9,7 @@ interface Props {
   eventId: string;
 }
 
-const EventTickets = ({ eventId }: Props) => {
+const EventTicketsAdmin = ({ eventId }: Props) => {
   const { data, error, isLoading } = useGetEventTicketsForAdministrationQuery(eventId);
 
   const {
@@ -48,4 +48,4 @@ const EventTickets = ({ eventId }: Props) => {
   );
 };
 
-export default EventTickets;
+export default EventTicketsAdmin;
