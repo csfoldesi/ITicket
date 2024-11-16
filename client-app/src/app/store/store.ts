@@ -5,6 +5,11 @@ import accountsStore from "../../features/accounts/accountsStore";
 import eventsStore from "../../features/events/eventsStore";
 import { BaseApi, RefreshTokenApi } from "../api/BaseApi";
 import breadcrumbsStore from "../../features/core/breadcrumbs/breadcrumbsStore";
+import shoppingCartStore from "../../features/shoppingCart/shoppingCartStore";
+import { thunk } from "redux-thunk";
+
+const middleware =
+  process.env.NODE_ENV !== "production" ? [require("redux-immutable-state-invariant").default(), thunk] : [thunk];
 
 export const store = configureStore({
   reducer: {
@@ -12,11 +17,12 @@ export const store = configureStore({
     accounts: accountsStore,
     events: eventsStore,
     breadcrumbs: breadcrumbsStore,
+    shoppingCart: shoppingCartStore,
     [BaseApi.reducerPath]: BaseApi.reducer,
     [RefreshTokenApi.reducerPath]: RefreshTokenApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(BaseApi.middleware).concat(RefreshTokenApi.middleware),
+    getDefaultMiddleware().concat(BaseApi.middleware).concat(RefreshTokenApi.middleware).concat(middleware),
   preloadedState: {
     accounts: {
       userInfo: localStorage.getItem("account") ? JSON.parse(localStorage.getItem("account")!) : null,
