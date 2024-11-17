@@ -86,6 +86,7 @@ export const eventsApi = BaseApi.injectEndpoints({
 export const {
   useGetEventsListQuery,
   useGetEventDetailQuery,
+  useLazyGetEventDetailQuery,
   useCreateEventMutation,
   useEditEventMutation,
   useDeleteEventMutation,

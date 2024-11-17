@@ -9,6 +9,7 @@ import Login from "../../features/accounts/Login";
 import Profile from "../../features/accounts/Profile";
 import Register from "../../features/accounts/Register";
 import Admin from "../../features/admin/Admin";
+import ShoppingCart from "../../features/shoppingCart/ShoppingCart";
 
 export const routes: RouteObject[] = [
   {
@@ -76,6 +77,11 @@ export const routes: RouteObject[] = [
         path: "register",
         element: <Register />,
         handle: { crumb: "Register" },
+      },
+      {
+        path: "shoppingcart",
+        element: <ShoppingCart />,
+        handle: { crumb: "Shoppping Cart" },
       },
       {
         path: "admin",

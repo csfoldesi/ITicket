@@ -4,8 +4,7 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { useEffect, useState } from "react";
 import QuantityControl from "../core/QuantityControl";
 import { useAppDispatch } from "../../app/store/hooks";
-import { addTicket, selectTicketsCount } from "../shoppingCart/shoppingCartStore";
-import { useSelector } from "react-redux";
+import { addTicket } from "../shoppingCart/shoppingCartStore";
 
 interface Props {
   eventId: string;
@@ -15,7 +14,6 @@ const EventTickets = ({ eventId }: Props) => {
   const { data: tickets, error, isLoading } = useGetEventTicketsQuery(eventId);
   const [selectedTickets, setSelectedTickets] = useState<number[]>([]);
   const dispatch = useAppDispatch();
-  const ticketsCount = useSelector(selectTicketsCount);
 
   useEffect(() => {
     setSelectedTickets(new Array(tickets?.length).fill(0));
@@ -39,7 +37,6 @@ const EventTickets = ({ eventId }: Props) => {
     <Container>
       <CardHeader title="Tickets" />
       <CardContent>
-        <p>{ticketsCount}</p>
         <List>
           {tickets.map((ticketType, index) => (
             <ListItem key={index}>

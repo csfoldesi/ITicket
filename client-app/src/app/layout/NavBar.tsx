@@ -1,16 +1,20 @@
 import { AccountCircle } from "@mui/icons-material";
-import { AppBar, Button, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
+import { AppBar, Button, Fab, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { logout } from "../../features/accounts/accountsStore";
 import { Roles } from "../models/account";
 import BreadcrumbsView from "./BreadcrumbsView";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { useSelector } from "react-redux";
+import { selectTicketsCount } from "../../features/shoppingCart/shoppingCartStore";
 
 const NavBar = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const userInfo = useAppSelector((state) => state.accounts.userInfo);
   const dispatch = useAppDispatch();
+  const ticketsCount = useSelector(selectTicketsCount);
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -92,6 +96,12 @@ const NavBar = () => {
           </Button>
           {userInfo ? menuAthorized() : menuUnathorized()}
         </div>
+        <RouterLink to="/shoppingcart">
+          <Fab color="secondary" aria-label="add" variant="extended">
+            <ShoppingCartIcon />
+            {ticketsCount > 0 ? ticketsCount : ""}
+          </Fab>
+        </RouterLink>
       </Toolbar>
       <BreadcrumbsView />
     </AppBar>
